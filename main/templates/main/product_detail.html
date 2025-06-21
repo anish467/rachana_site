@@ -1,0 +1,204 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="product-detail-section py-16 px-4">
+    <div class="product-detail max-w-6xl mx-auto bg-white p-8 md:p-12 rounded-3xl shadow-3xl border border-gray-100 flex flex-col md:flex-row items-center md:items-start gap-8 md:gap-16 animate-fade-in-scale">
+        <!-- Product Images Column -->
+        <div class="w-full md:w-1/2 flex flex-col items-center p-4 bg-gray-50 rounded-2xl shadow-inner">
+            <!-- Main Display Image -->
+            <div class="main-image-display w-full flex justify-center items-center h-[400px] mb-6 bg-white rounded-xl overflow-hidden shadow-lg border border-gray-200">
+                {% if product.main_image %}
+                    <img id="mainProductImage" src="{{ product.main_image.url }}" alt="{{ product.name }} Main Image"
+                         class="w-full h-full object-contain">
+                {% else %}
+                    <!-- Placeholder if no images are uploaded -->
+                    <img id="mainProductImage" src="https://placehold.co/600x400/E0E7FF/3B82F6?text=No+Image" alt="No image available"
+                         class="w-full h-full object-contain">
+                {% endif %}
+            </div>
+
+            <!-- Thumbnail Gallery (if more than one image) -->
+            {% if product.images.count > 1 %}
+            <div class="thumbnail-gallery flex flex-wrap justify-center gap-4 w-full">
+                {% for image in product.images.all %}
+                    <img src="{{ image.image_file.url }}"
+                         alt="{{ product.name }} Thumbnail {{ forloop.counter }}"
+                         class="w-24 h-24 object-cover rounded-lg border-2 border-transparent cursor-pointer transition-all duration-200 hover:border-blue-500 thumbnail-img
+                         {% if image.is_main %} active-thumbnail border-blue-600 shadow-md {% endif %}"
+                         data-full-image="{{ image.image_file.url }}">
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Product Information Column -->
+        <div class="w-full md:w-1/2 text-center md:text-left">
+            <h2 class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4 leading-tight">
+                {{ product.name }}
+            </h2>
+            <p class="text-lg text-gray-700 leading-relaxed mb-6">
+                {{ product.details }}
+            </p>
+
+            <!-- Add to Quote Button -->
+            <div class="mb-6">
+                <button id="addToQuoteBtn" 
+                        data-product-id="{{ product.id }}"
+                        class="w-full md:w-auto bg-green-600 text-white py-3 px-8 rounded-lg font-bold text-lg hover:bg-green-700 focus:outline-none focus:ring-4 focus:ring-green-500 focus:ring-opacity-70 transition-all duration-300 shadow-lg transform hover:scale-102 active:scale-98">
+                    {% if is_in_quote_cart %}
+                        Remove from Quote
+                    {% else %}
+                        Add to Quote
+                    {% endif %}
+                </button>
+            </div>
+
+
+            <div class="mt-8 pt-8 border-t-2 border-gray-100">
+                <h3 class="text-2xl font-bold text-gray-800 mb-5">Key Features:</h3>
+                <ul class="list-disc list-inside text-gray-600 text-base space-y-3 pl-4">
+                    <li class="flex items-start">
+                        <svg class="w-5 h-5 text-blue-500 mr-2 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 set_global_var = 00-1.414-1.414L9 10.586 7.707 9.293a1 1 set_global_var = 00-1.414 1.414l2 2a1 1 set_global_var = 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                        <p>High precision measurement for accurate results.</p>
+                    </li>
+                    <li class="flex items-start">
+                        <svg class="w-5 h-5 text-blue-500 mr-2 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 set_global_var = 00-1.414-1.414L9 10.586 7.707 9.293a1 1 set_global_var = 00-1.414 1.414l2 2a1 1 set_global_var = 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                        <p>Durable and robust design ensuring long-term reliability.</p>
+                    </li>
+                    <li class="flex items-start">
+                        <svg class="w-5 h-5 text-blue-500 mr-2 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 set_global_var = 00-1.414-1.414L9 10.586 7.707 9.293a1 1 set_global_var = 00-1.414 1.414l2 2a1 1 set_global_var = 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                        <p>Easy to calibrate and maintain, minimizing downtime.</p>
+                    </li>
+                    <li class="flex items-start">
+                        <svg class="w-5 h-5 text-blue-500 mr-2 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 set_global_var = 00-1.414-1.414L9 10.586 7.707 9.293a1 1 set_global_var = 00-1.414 1.414l2 2a1 1 set_global_var = 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                        <p>Officially certified for accuracy and compliance.</p>
+                    </li>
+                    <li class="flex items-start">
+                        <svg class="w-5 h-5 text-blue-500 mr-2 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 set_global_var = 00-1.414-1.414L9 10.586 7.707 9.293a1 1 set_global_var = 00-1.414 1.414l2 2a1 1 set_global_var = 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                        <p>Versatile for various industrial and commercial applications.</p>
+                    </li>
+                </ul>
+            </div>
+            <div class="mt-10 flex flex-col sm:flex-row sm:justify-center md:justify-start gap-5">
+                <a href="/contact/"
+                   class="bg-blue-600 text-white py-3.5 px-10 rounded-lg font-bold text-lg hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-500 focus:ring-opacity-70 transition-all duration-300 shadow-lg transform hover:scale-102 active:scale-98">
+                    Enquire Now
+                </a>
+                <a href="/products/"
+                   class="bg-gray-200 text-gray-800 py-3.5 px-10 rounded-lg font-bold text-lg hover:bg-gray-300 focus:outline-none focus:ring-4 focus:ring-gray-400 focus:ring-opacity-50 transition-all duration-300 shadow-md transform hover:scale-102 active:scale-98">
+                    Back to Products
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dynamic Specification Table -->
+    {% if product.parameter_values.all %}
+    <div class="dynamic-spec-table mt-16 max-w-6xl mx-auto bg-white p-8 md:p-10 rounded-3xl shadow-3xl border border-gray-100 animate-fade-in-scale">
+        <h3 class="text-3xl font-bold text-gray-900 mb-8 text-center">Technical Specifications</h3>
+        <table class="w-full text-left table-auto">
+            <tbody class="divide-y divide-gray-200">
+                {% for param_value in product.parameter_values.all %}
+                    <tr class="{% cycle 'bg-white' 'bg-blue-50' %} hover:bg-gray-100 transition-colors duration-150">
+                        <td class="px-6 py-3 font-semibold text-gray-700 rounded-l-lg md:rounded-l-none">
+                            {{ param_value.parameter.name }}
+                        </td>
+                        <td class="px-6 py-3 text-gray-800 rounded-r-lg md:rounded-r-none">
+                            {{ param_value.value }}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+
+</section>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const mainProductImage = document.getElementById('mainProductImage');
+        const thumbnails = document.querySelectorAll('.thumbnail-img');
+
+        thumbnails.forEach(thumbnail => {
+            thumbnail.addEventListener('click', function() {
+                // Remove active class from all thumbnails
+                thumbnails.forEach(img => img.classList.remove('active-thumbnail', 'border-blue-600', 'shadow-md'));
+                
+                // Set the clicked thumbnail as active
+                this.classList.add('active-thumbnail', 'border-blue-600', 'shadow-md');
+                
+                // Change the main image source
+                mainProductImage.src = this.dataset.fullImage;
+            });
+        });
+
+        // Add to Quote Functionality
+        const addToQuoteBtn = document.getElementById('addToQuoteBtn');
+        const quoteCartCount = document.getElementById('quoteCartCount'); // Get the cart count element from base.html
+
+        if (addToQuoteBtn) {
+            addToQuoteBtn.addEventListener('click', function() {
+                const productId = this.dataset.productId;
+                
+                fetch('{% url "add_remove_from_quote" %}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'X-CSRFToken': getCookie('csrftoken') // Get CSRF token
+                    },
+                    body: `product_id=${productId}&quantity=1` // Default quantity 1 for now
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        if (data.action === 'added') {
+                            addToQuoteBtn.textContent = 'Remove from Quote';
+                            addToQuoteBtn.classList.remove('bg-green-600', 'hover:bg-green-700', 'focus:ring-green-500');
+                            addToQuoteBtn.classList.add('bg-red-600', 'hover:bg-red-700', 'focus:ring-red-500');
+                        } else {
+                            addToQuoteBtn.textContent = 'Add to Quote';
+                            addToQuoteBtn.classList.remove('bg-red-600', 'hover:bg-red-700', 'focus:ring-red-500');
+                            addToQuoteBtn.classList.add('bg-green-600', 'hover:bg-green-700', 'focus:ring-green-500');
+                        }
+                        // Update cart count in navigation
+                        if (quoteCartCount) {
+                            quoteCartCount.textContent = data.cart_count;
+                            if (data.cart_count > 0) {
+                                quoteCartCount.classList.remove('hidden');
+                            } else {
+                                quoteCartCount.classList.add('hidden');
+                            }
+                        }
+                    } else {
+                        console.error('Error:', data.error);
+                        alert('Error updating quote cart: ' + data.error); // Fallback alert
+                    }
+                })
+                .catch(error => {
+                    console.error('Network error:', error);
+                    alert('Network error when updating quote cart.'); // Fallback alert
+                });
+            });
+        }
+
+        // Helper function to get CSRF token
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>New Quotation Request</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+        .container { max-width: 600px; margin: 20px auto; padding: 20px; border: 1px solid #ddd; border-radius: 8px; background-color: #f9f9f9; }
+        h1, h2, h3 { color: #2c3e50; }
+        .details-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        .details-table th, .details-table td { padding: 10px; border: 1px solid #eee; text-align: left; }
+        .details-table th { background-color: #eef; font-weight: bold; }
+        .product-item { margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px dashed #eee; }
+        .product-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+        .product-image { max-width: 100px; max-height: 100px; float: left; margin-right: 15px; border: 1px solid #ddd; }
+        .clear { clear: both; }
+        .spec-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.9em; }
+        .spec-table th, .spec-table td { padding: 6px 10px; border: 1px solid #e0e0e0; text-align: left; }
+        .spec-table th { background-color: #f0f0f0; }
+        .spec-table tr:nth-child(even) { background-color: #f8f8f8; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>New Quotation Request Received!</h1>
+        <p>A new quotation request has been submitted through your website. Here are the details:</p>
+
+        <h2>Customer Information:</h2>
+        <table class="details-table">
+            <tr>
+                <th>Full Name:</th>
+                <td>{{ quotation_request.full_name }}</td>
+            </tr>
+            <tr>
+                <th>Email:</th>
+                <td><a href="mailto:{{ quotation_request.email }}">{{ quotation_request.email }}</a></td>
+            </tr>
+            {% if quotation_request.phone %}
+            <tr>
+                <th>Phone:</th>
+                <td>{{ quotation_request.phone }}</td>
+            </tr>
+            {% endif %}
+            {% if quotation_request.company_name %}
+            <tr>
+                <th>Company Name:</th>
+                <td>{{ quotation_request.company_name }}</td>
+            </tr>
+            {% endif %}
+            {% if quotation_request.message %}
+            <tr>
+                <th>Message:</th>
+                <td>{{ quotation_request.message|linebreaksbr }}</td>
+            </tr>
+            {% endif %}
+            <tr>
+                <th>Submitted At:</th>
+                <td>{{ quotation_request.submitted_at|date:"F d, Y P" }}</td>
+            </tr>
+        </table>
+
+        <h2>Requested Products:</h2>
+        {% if quote_items %}
+            {% for product in quote_items %}
+            <div class="product-item">
+                {% if product.main_image %}
+                    <img src="{{ request.scheme }}://{{ request.get_host }}{{ product.main_image.url }}" alt="{{ product.name }}" class="product-image">
+                {% endif %}
+                <h3>{{ product.name }} (Quantity: {{ product.quantity }})</h3>
+                <p>Category: {{ product.category.name }}</p>
+                <p>{{ product.details|truncatechars:200 }}</p>
+
+                {% if product.parameter_values.all %}
+                <h4>Specifications:</h4>
+                <table class="spec-table">
+                    <tbody>
+                        {% for param_value in product.parameter_values.all|dictsort:"parameter.order" %}
+                        <tr>
+                            <th>{{ param_value.parameter.name }}:</th>
+                            <td>{{ param_value.value }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% endif %}
+                <div class="clear"></div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p>No products were included in this quotation request.</p>
+        {% endif %}
+
+        <p>Please log in to the Django admin to view full details of this request and respond:</p>
+        <p><a href="{{ request.scheme }}://{{ request.get_host }}/admin/main/quotationrequest/{{ quotation_request.id }}/" target="_blank">View Request in Admin</a></p>
+        
+        <p>Thank you.</p>
+    </div>
+</body>
+</html>

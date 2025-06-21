@@ -1,0 +1,70 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="downloads-section py-16 px-4 container mx-auto">
+    <h1 class="text-4xl md:text-5xl font-bold text-center text-gray-900 mb-14 leading-tight">Downloadable Resources</h1>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
+        <!-- NEW: Product Catalog Download Card -->
+        <div class="download-card bg-white rounded-lg shadow-md border border-gray-100 p-6 flex flex-col items-start transform hover:-translate-y-1 hover:shadow-lg transition-all duration-300">
+            <div class="flex items-center mb-4">
+                <svg class="w-8 h-8 text-red-600 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zM11 6V3.083L16.914 9H13a2 2 0 01-2-2V6z" clip-rule="evenodd"></path>
+                </svg>
+                <h2 class="text-xl font-semibold text-gray-800 line-clamp-1">Product Catalog</h2>
+            </div>
+            
+            <p class="text-gray-600 text-sm mb-4 flex-grow">
+                Download our complete product catalog in PDF format, featuring our full range of certified weights and weighing balances with detailed specifications.
+            </p>
+
+            <div class="mt-auto w-full">
+                <a href="{% url 'download_catalog_pdf' %}"
+                   class="block w-full text-center bg-red-600 text-white py-2.5 px-4 rounded-md text-sm font-bold hover:bg-red-700 transition-colors duration-200 shadow-md">
+                    Download Catalog
+                    <svg class="inline-block w-4 h-4 ml-2 -mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H4a2 2 0 01-2-2V6a2 2 0 012-2h7.414l2.586 2.586A2 2 0 0116 8.586V18a2 2 0 01-2 2z"></path></svg>
+                </a>
+            </div>
+        </div>
+
+        <!-- Existing loop for other downloadable documents -->
+        {% for doc in documents %}
+        <div class="download-card bg-white rounded-lg shadow-md border border-gray-100 p-6 flex flex-col items-start transform hover:-translate-y-1 hover:shadow-lg transition-all duration-300">
+            <div class="flex items-center mb-4">
+                <!-- SVG Icon for generic document -->
+                <svg class="w-8 h-8 text-blue-600 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 set_global_var = 100-1.414-1.414L9 10.586 7.707 9.293a1 1 set_global_var = 100-1.414 1.414l2 2a1 1 set_global_var = 1001.414 0l4-4z" clip-rule="evenodd"></path>
+                </svg>
+                <h2 class="text-xl font-semibold text-gray-800 line-clamp-1">{{ doc.title }}</h2>
+            </div>
+            
+            {% if doc.description %}
+            <p class="text-gray-600 text-sm mb-4 flex-grow">
+                {{ doc.description|truncatechars:150 }}
+            </p>
+            {% else %}
+            <p class="text-gray-500 text-sm mb-4 flex-grow italic">
+                No description available.
+            </p>
+            {% endif %}
+
+            <div class="mt-auto w-full">
+                <a href="{{ doc.file.url }}" download
+                   class="block w-full text-center bg-blue-600 text-white py-2.5 px-4 rounded-md text-sm font-bold hover:bg-blue-700 transition-colors duration-200 shadow-md">
+                    Download
+                    <svg class="inline-block w-4 h-4 ml-2 -mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H4a2 2 0 01-2-2V6a2 2 0 012-2h7.414l2.586 2.586A2 2 0 0116 8.586V18a2 2 0 01-2 2z"></path></svg>
+                </a>
+            </div>
+        </div>
+        {% empty %}
+        {% if not documents %} {# Only show this if no general documents AND no catalog card (which is static) #}
+        <div class="col-span-full text-center text-gray-700 text-lg py-10 border border-dashed border-gray-300 rounded-lg">
+            <p>No additional documents available for download at the moment.</p>
+            <p class="text-sm text-gray-500 mt-2">Please check back later!</p>
+        </div>
+        {% endif %}
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Rachana Corporation Product Catalog</title>
+    <style>
+        body { font-family: sans-serif; margin: 0; padding: 0; }
+        .page-break { page-break-before: always; }
+        /* Placeholder for styles that will be overridden by WeasyPrint CSS in views.py */
+        .product-card, .product-image-container, .product-image-container img,
+        .product-info, .product-name, .product-category, .product-details,
+        .spec-table-container, .spec-table-grid, .spec-table-grid-cell,
+        .spec-table-grid-header, .spec-table-grid-value {
+            /* Minimal styles here to ensure basic rendering if external CSS fails,
+               but the primary styling comes from the CSS injected by WeasyPrint in views.py */
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+    {% for page_products in product_pages %}
+        {% if not forloop.first %}
+            <div class="page-break"></div>
+        {% endif %}
+
+        {% for product in page_products %}
+            <div class="product-card">
+                <div class="product-image-container">
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                </div>
+                <div class="product-info">
+                    <h1 class="product-name">{{ product.name }}</h1>
+                    <p class="product-category">Category: {{ product.category.name }}</p>
+                    <p class="product-details">{{ product.details }}</p>
+
+                    {% if product.parameter_values.all %}
+                    <div class="spec-table-container">
+                        <div class="spec-table-grid">
+                            {% comment %} Iterate through parameter values, ensuring proper order {% endcomment %}
+                            {% for param_value in product.parameter_values.all|dictsort:"parameter.order" %}
+                                <div class="spec-table-grid-cell spec-table-grid-header">
+                                    {{ param_value.parameter.name }}
+                                </div>
+                                <div class="spec-table-grid-cell spec-table-grid-value">
+                                    {{ param_value.value }}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    {% endfor %}
+</body>
+</html>

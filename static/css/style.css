@@ -1,0 +1,161 @@
+/* style.css */
+
+/* Define custom keyframe animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Staggered grid animation for categories and products */
+@keyframes fadeInGrid {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Apply animations to specific elements */
+.animate-fade-in {
+    animation: fadeIn 0.8s ease-out forwards;
+    opacity: 0; /* Start invisible */
+}
+
+.animate-fade-in-down {
+    animation: fadeInDown 1s ease-out forwards;
+    opacity: 0;
+}
+
+.animate-fade-in-up {
+    animation: fadeInUp 1s ease-out forwards;
+    opacity: 0;
+    animation-delay: 0.3s; /* Delay for sequential animation */
+}
+
+.animate-fade-in-left {
+    animation: fadeInLeft 0.8s ease-out forwards;
+    opacity: 0;
+    animation-delay: 0.2s;
+}
+
+.animate-fade-in-scale {
+    animation: fadeInScale 0.8s ease-out forwards;
+    opacity: 0;
+}
+
+/* Base style for staggered animations */
+.animate-fade-in-grid {
+    animation: fadeInGrid 1s ease-out forwards;
+    opacity: 0;
+}
+
+/* Staggered delay for .card elements within .categories */
+/* NOTE: These specific delays are now less relevant for the new home page structure */
+/* but kept for general fade-in effects on new elements */
+.category-section {
+    animation: fadeInScale 0.7s ease-out forwards;
+    opacity: 0;
+}
+.category-section:nth-child(1) { animation-delay: 0.1s; }
+.category-section:nth-child(2) { animation-delay: 0.3s; }
+.category-section:nth-child(3) { animation-delay: 0.5s; }
+.category-section:nth-child(4) { animation-delay: 0.7s; }
+/* Add more delays if you have more categories */
+
+/* No specific product-card delays here, as they are within their category sections */
+
+
+/* General utility classes (can be added to Tailwind config if extending) */
+.shadow-3xl {
+    box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.08), 0 10px 20px -5px rgba(0, 0, 0, 0.05);
+}
+
+.shadow-inner-lg {
+    box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+}
+
+/* Ensure images don't overflow their containers */
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* General Link Style (for links not explicitly styled by Tailwind) */
+a {
+    @apply transition-colors duration-200;
+}
+
+/* Adjust line-clamp for better readability on smaller cards */
+.line-clamp-2 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+}
+.line-clamp-3 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+}
+
+/* Custom scrollbar hiding for horizontal sections */
+.custom-scrollbar-hide::-webkit-scrollbar {
+    display: none; /* For Chrome, Safari, and Opera */
+}
+.custom-scrollbar-hide {
+    -ms-overflow-style: none;  /* For Internet Explorer and Edge */
+    scrollbar-width: none;  /* For Firefox */
+}
+
