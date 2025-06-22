@@ -1,4 +1,6 @@
 from django.db import models
+from django.core.files.storage import default_storage
+
 
 class Category(models.Model):
     name = models.CharField(max_length=255)
