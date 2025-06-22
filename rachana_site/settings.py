@@ -126,7 +126,7 @@ DATABASES = {
         'NAME': 'rachana_site',
         'USER': 'rachana',
         'PASSWORD': 'webtEx-gyjdic-1syggi',
-        'HOST': 'rachana-site.cje2mscoarjj.ap-south-1.rds.amazonaws.com',
+        'HOST': 'rachana-sit.cje2mscoarjj.ap-south-1.rds.amazonaws.com',
         'PORT': '5432',
     }
 }
