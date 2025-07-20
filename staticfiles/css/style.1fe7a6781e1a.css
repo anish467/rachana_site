@@ -1,0 +1,95 @@
+/* Custom CSS for Animations and General Styles */
+
+/* Base fade-in animations for sections (existing) */
+@keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInScale {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes fadeInGrid {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in-down { animation: fadeInDown 0.8s ease-out forwards; }
+.animate-fade-in-up { animation: fadeInUp 0.8s ease-out forwards; }
+.animate-fade-in-scale { animation: fadeInScale 0.8s ease-out forwards; }
+.animate-fade-in-grid { animation: fadeInGrid 0.8s ease-out forwards; }
+
+/* Marquee/Infinite Scroll Specific CSS */
+
+.marquee-container {
+    white-space: nowrap; /* Prevent content from wrapping */
+    overflow: hidden; /* Hide overflowing content */
+    -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent); /* Fade edges */
+    mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+}
+
+.marquee-content {
+    display: inline-flex; /* Use inline-flex to keep items in a row */
+    /* Needs to be wider than its container to allow for scrolling */
+    width: max-content; /* Adjusts to content width */
+}
+
+.logo-item {
+    /* Styles for individual logo items */
+    padding: 1rem; /* Spacing around logos */
+    margin-right: 2rem; /* Space between logos */
+    /* Ensure images within are centered and fit */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 96px; /* Fixed height for consistency, adjust as needed */
+    width: 192px; /* Fixed width, adjust as needed */
+}
+
+.logo-item img {
+    /* Styling for the actual image */
+    max-height: 100%;
+    max-width: 100%;
+    object-fit: contain; /* Ensure logo fits without cropping */
+}
+
+/* Keyframes for infinite scroll */
+@keyframes marquee-left {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); } /* Scrolls half the width of duplicated content */
+}
+
+@keyframes marquee-right {
+    from { transform: translateX(-50%); } /* Start halfway to ensure seamless loop */
+    to { transform: translateX(0); }
+}
+
+.animate-marquee-left {
+    animation: marquee-left 40s linear infinite; /* Adjust duration for speed */
+}
+
+.animate-marquee-right {
+    animation: marquee-right 40s linear infinite; /* Adjust duration for speed */
+}
+
+/* Optional: Pause animation on hover */
+.marquee-container:hover .animate-marquee-left,
+.marquee-container:hover .animate-marquee-right {
+    animation-play-state: paused;
+}
+
+/* Ensure the custom scrollbar hide utility works (from your previous code) */
+.custom-scrollbar-hide::-webkit-scrollbar {
+    display: none;
+}
+.custom-scrollbar-hide {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}

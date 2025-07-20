@@ -1,0 +1,55 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="products-list-section py-16 px-4 container mx-auto">
+    <h2 class="text-4xl md:text-5xl font-bold text-center text-gray-900 mb-14 leading-tight">
+        {% if query %}
+            Search Results for "{{ query }}"
+        {% elif current_category %}
+            {{ current_category.name }} Products
+        {% else %}
+            Our Comprehensive Product Range
+        {% endif %}
+    </h2>
+
+    <div class="products-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 animate-fade-in-grid">
+        {% for p in products %}
+            <div class="product-card bg-white border border-gray-100 rounded-lg shadow-md overflow-hidden transform hover:scale-102 hover:shadow-xl transition-all duration-300 ease-in-out flex flex-col">
+                <div class="w-full h-[288px] bg-gray-50 flex items-center justify-center overflow-hidden">
+                    {% if p.main_image %}
+                        <img src="{{ p.main_image.url }}" alt="{{ p.name }}" class="object-cover w-full h-full">
+                    {% else %}
+                        <img src="https://placehold.co/600x400/E0E7FF/3B82F6?text=No+Image" alt="No image available" class="object-contain w-full h-full p-4">
+                    {% endif %}
+                </div>
+
+                <div class="p-4 flex-grow text-left">
+                    <h4 class="text-lg font-semibold text-gray-800 line-clamp-2 mb-0.5">
+                        {{ p.name }}
+                    </h4>
+                    <p class="text-sm text-gray-500 mb-3">
+                        {{ p.category.name|default:"General Product" }}
+                    </p>
+                </div>
+
+                <div class="px-4 pb-4 mt-auto">
+                    <a href="/product/{{ p.id }}/"
+                       class="block w-full text-center bg-blue-600 text-white py-2.5 px-4 rounded-md text-sm font-bold hover:bg-blue-700 transition-colors duration-200 shadow-md">
+                        View Details
+                    </a>
+                </div>
+            </div>
+        {% empty %}
+        <div class="col-span-full text-center text-gray-700 text-lg py-10">
+            <p>No products found matching your criteria.</p>
+            {% if query %}
+                <p class="text-sm text-gray-500 mt-2">Try a different search term or browse our <a href="{% url 'products' %}" class="text-blue-600 hover:underline">full product range</a>.</p>
+            {% else %}
+                <p class="text-sm text-gray-500 mt-2">No products available in this category yet. Please check back later!</p>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

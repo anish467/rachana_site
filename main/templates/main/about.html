@@ -1,0 +1,81 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="about-hero bg-gradient-to-br from-blue-50 to-indigo-100 py-20 px-4 text-center rounded-b-3xl shadow-inner-lg overflow-hidden relative">
+    <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/lined-paper.png')] opacity-10"></div>
+    <div class="max-w-4xl mx-auto relative z-10">
+        <h1 class="text-5xl md:text-6xl font-extrabold text-gray-900 mb-6 animate-fade-in-down drop-shadow-md">
+            About <span class="text-blue-700">Rachana Corporation</span>
+        </h1>
+        <p class="text-xl md:text-2xl text-gray-700 mb-8 max-w-3xl mx-auto leading-relaxed animate-fade-in-up">
+            Our journey of precision, quality, and trust in weighing solutions.
+        </p>
+        <!-- Optional: Add a relevant image for the About Us hero section -->
+        <img src="https://placehold.co/1200x500/E0E7FF/3B82F6?text=Our+Team+or+Facility" alt="Rachana Corporation Team" class="w-full max-w-4xl mx-auto rounded-3xl shadow-2xl border-4 border-white mt-12 transform hover:scale-102 transition-transform duration-700 ease-in-out cursor-pointer">
+    </div>
+</section>
+
+<section class="company-story py-16 px-4 container mx-auto">
+    <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+        <div class="animate-fade-in-left">
+            <h2 class="text-4xl font-bold text-gray-900 mb-6">Our Legacy of Precision</h2>
+            <p class="text-lg text-gray-700 leading-relaxed mb-4">
+                Since our inception over two decades ago, Rachana Corporation has been dedicated to providing
+                top-tier certified weights and weighing balances. Founded on principles of accuracy, reliability,
+                and unwavering customer satisfaction, we have grown to become a trusted name in the industry.
+            </p>
+            <p class="text-lg text-gray-700 leading-relaxed">
+                Our commitment to excellence drives us to continually innovate and deliver products that meet
+                the highest national and international standards, ensuring precision in every measurement.
+            </p>
+        </div>
+        <div class="animate-fade-in-right">
+            <!-- Placeholder for an image representing history/quality -->
+            <img src="https://placehold.co/600x400/E0E7FF/3B82F6?text=Quality+Assurance" alt="Quality Assurance" class="w-full rounded-2xl shadow-xl transform hover:scale-105 transition-transform duration-500 ease-in-out">
+        </div>
+    </div>
+</section>
+
+<section class="mission-values bg-gray-100 py-16 px-4">
+    <div class="max-w-5xl mx-auto text-center">
+        <h2 class="text-4xl font-bold text-gray-900 mb-12">Our Mission & Values</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="value-card bg-white p-8 rounded-2xl shadow-lg border border-gray-100 animate-fade-in-up delay-100">
+                <div class="text-5xl text-blue-600 mb-4">&#9879;</div> <!-- Icon placeholder for Quality -->
+                <h3 class="text-2xl font-semibold text-gray-900 mb-3">Uncompromising Quality</h3>
+                <p class="text-gray-700 leading-relaxed">
+                    We ensure every product meets rigorous standards, providing unmatched accuracy and durability.
+                </p>
+            </div>
+            <div class="value-card bg-white p-8 rounded-2xl shadow-lg border border-gray-100 animate-fade-in-up delay-200">
+                <div class="text-5xl text-blue-600 mb-4">&#9993;</div> <!-- Icon placeholder for Customer Focus -->
+                <h3 class="text-2xl font-semibold text-gray-900 mb-3">Customer-Centric Approach</h3>
+                <p class="text-gray-700 leading-relaxed">
+                    Your needs are our priority. We are committed to exceptional service and support.
+                </p>
+            </div>
+            <div class="value-card bg-white p-8 rounded-2xl shadow-lg border border-gray-100 animate-fade-in-up delay-300">
+                <div class="text-5xl text-blue-600 mb-4">&#128172;</div> <!-- Icon placeholder for Innovation -->
+                <h3 class="text-2xl font-semibold text-gray-900 mb-3">Continuous Innovation</h3>
+                <p class="text-gray-700 leading-relaxed">
+                    Embracing new technologies to deliver cutting-edge weighing solutions.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="call-to-action py-16 px-4 text-center">
+    <div class="max-w-3xl mx-auto">
+        <h2 class="text-4xl font-bold text-gray-900 mb-6">Partner with Rachana Corporation</h2>
+        <p class="text-lg text-gray-700 mb-10 leading-relaxed">
+            Discover why industries trust us for their precision weighing needs. Connect with our experts today.
+        </p>
+        <a href="/contact/"
+           class="inline-block bg-blue-600 text-white py-3.5 px-10 rounded-lg font-bold text-lg hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-500 focus:ring-opacity-70 transition-all duration-300 shadow-lg transform hover:scale-105 active:scale-98">
+            Contact Us Today
+        </a>
+    </div>
+</section>
+{% endblock %}

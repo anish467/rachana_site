@@ -1,0 +1,82 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="catalog-hero bg-gradient-to-br from-blue-50 to-indigo-100 py-20 px-4 text-center rounded-b-3xl shadow-inner-lg overflow-hidden relative">
+    <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/lined-paper.png')] opacity-10"></div>
+    <div class="max-w-4xl mx-auto relative z-10">
+        <h1 class="text-5xl md:text-6xl font-extrabold text-gray-900 mb-6 animate-fade-in-down drop-shadow-md">
+            Our Digital <span class="text-blue-700">Product Catalog</span>
+        </h1>
+        <p class="text-xl md:text-2xl text-gray-700 mb-8 max-w-3xl mx-auto leading-relaxed animate-fade-in-up">
+            Browse our comprehensive range of certified weights and weighing balances.
+        </p>
+        <div class="mt-12 flex justify-center space-x-4">
+            <a href="#product-sections" class="inline-block bg-blue-600 text-white py-3.5 px-8 rounded-lg font-bold text-lg hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-500 focus:ring-opacity-70 transition-all duration-300 shadow-lg transform hover:scale-105 active:scale-98">
+                Explore Products
+            </a>
+            <a href="/contact/" class="inline-block bg-gray-200 text-gray-800 py-3.5 px-8 rounded-lg font-bold text-lg hover:bg-gray-300 focus:outline-none focus:ring-4 focus:ring-gray-400 focus:ring-opacity-50 transition-all duration-300 shadow-md transform hover:scale-105 active:scale-98">
+                Get a Quote
+            </a>
+        </div>
+    </div>
+</section>
+
+<section id="product-sections" class="catalog-sections py-16 px-4 container mx-auto">
+    <h2 class="text-4xl md:text-5xl font-bold text-center text-gray-900 mb-14 leading-tight">All Products by Category</h2>
+
+    {% for cat in categories %}
+    <div class="catalog-category-section mb-16 animate-fade-in-scale">
+        <h3 class="text-3xl md:text-4xl font-bold text-gray-800 mb-8 text-center md:text-left">
+            {{ cat.name }}
+            <a href="/products/{{ cat.id }}/" class="ml-4 text-lg text-blue-600 hover:underline transition-colors duration-200 hidden sm:inline-block">
+                View All {{ cat.name }} &rarr;
+            </a>
+        </h3>
+
+        <!-- Product Grid for each category -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+            {% for p in cat.products %}
+            <div class="product-card bg-white p-6 rounded-2xl shadow-xl hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 ease-in-out border border-gray-100 flex flex-col items-center text-center group">
+                <a href="/product/{{ p.id }}/" class="block w-full">
+                    <div class="relative w-full h-48 mb-4 overflow-hidden rounded-xl border border-gray-200 p-2 bg-gray-50 flex items-center justify-center">
+                        <img src="{{ p.image.url }}" alt="{{ p.name }}"
+                             class="max-w-full max-h-full object-contain transform group-hover:scale-105 transition-transform duration-300">
+                    </div>
+                    <h4 class="text-xl font-semibold text-gray-800 group-hover:text-blue-700 transition-colors duration-200 leading-tight">
+                        {{ p.name }}
+                    </h4>
+                </a>
+                <p class="text-sm text-gray-600 mt-2 mb-4 line-clamp-3 leading-relaxed">
+                    {{ p.details|truncatechars:150 }}
+                </p>
+                <div class="mt-auto"> <!-- Push button to bottom -->
+                    <a href="/product/{{ p.id }}/"
+                       class="inline-block bg-blue-600 text-white py-2.5 px-6 rounded-lg text-sm font-bold hover:bg-blue-700 transition-colors duration-200 shadow-md">
+                        View Details
+                    </a>
+                </div>
+            </div>
+            {% empty %}
+            <p class="text-gray-600 italic col-span-full">No products found for this category yet.</p>
+            {% endfor %}
+        </div>
+    </div>
+    {% empty %}
+    <p class="text-center text-gray-700 text-lg">No product categories or products available in the catalog at the moment.</p>
+    {% endfor %}
+</section>
+
+<section class="call-to-action-catalog bg-blue-600 text-white py-16 px-4 text-center mt-12 rounded-lg mx-auto max-w-6xl shadow-xl">
+    <div class="max-w-4xl mx-auto">
+        <h2 class="text-4xl md:text-5xl font-extrabold mb-6">Need a Custom Solution?</h2>
+        <p class="text-lg md:text-xl mb-10 leading-relaxed opacity-90">
+            Our experts are ready to assist you in finding the perfect weighing solution for your specific requirements.
+        </p>
+        <a href="/contact/"
+           class="inline-block bg-white text-blue-700 py-3.5 px-10 rounded-lg font-bold text-lg hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-white focus:ring-opacity-70 transition-all duration-300 shadow-lg transform hover:scale-105 active:scale-98">
+            Contact Our Sales Team
+        </a>
+    </div>
+</section>
+{% endblock %}
