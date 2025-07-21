@@ -5,11 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rachana Corporation - Precision Weighing Solutions</title>
-    <!-- Load Inter font from Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <!-- Load Tailwind CSS CDN for utility-first styling -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Custom CSS for specific styles and animations (e.g., dropdown, custom animations) -->
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <style>
         /* Apply Inter font globally and reset some default styles */
@@ -28,9 +25,9 @@
             border-radius: 0.75rem; /* More rounded corners, consistent with cards */
             overflow: hidden; /* Hide overflow */
             opacity: 0;
-            transform: translateY(10px);
+            transform: translateY(5px); /* MODIFIED: Makes the animation shorter and smoother */
             transition: opacity 0.3s ease-out, transform 0.3s ease-out; /* Smooth transition */
-            @apply p-2 mt-3 space-y-1 border border-gray-100; /* Tailwind padding, margin-top, spacing, and subtle border */
+            @apply p-2 space-y-1 border border-gray-100; /* MODIFIED: Removed mt-3 */
         }
         .dropdown:hover .dropdown-content {
             display: block; /* Show dropdown on hover */
@@ -132,34 +129,27 @@
 <body>
     <header class="bg-white shadow-md sticky top-0 z-50 border-b border-gray-100">
         <nav class="container mx-auto px-4 py-3 flex justify-between items-center h-24">
-            <!-- Logo Section -->
             <a href="/" class="logo flex items-center space-x-2 animate-fade-in-left">
                 <img src="{% static 'images/logo.jpg' %}" alt="Rachana Corporation Logo" class="h-20 w-20 object-cover rounded-full">
                 <span class="text-xl font-extrabold text-gray-900 hidden sm:block">Rachana <span class="text-blue-600">Corporation</span></span>
             </a>
 
-            <!-- Hamburger Menu for Mobile -->
             <button class="hamburger md:hidden focus:outline-none" id="hamburger-menu" aria-label="Toggle navigation">
-                &#9776; <!-- Unicode for hamburger icon -->
-            </button>
+                &#9776; </button>
 
-            <!-- Search Form - Integrated into Header with Live Suggestions -->
-            <div class="search-form-wrapper relative"> {# Added a wrapper for positioning suggestions #}
-                <form action="{% url 'products' %}" method="get" class="search-form flex items-center border border-gray-300 rounded-lg overflow-hidden shadow-sm focus-within:border-blue-500 focus-within:ring-2 focus-within:ring-blue-200 transition-all duration-200">
-                    <input type="search" name="q" id="searchInput" placeholder="Search products..."
-                           class="px-4 py-2.5 w-64 md:w-auto flex-grow focus:outline-none text-gray-700 placeholder-gray-400 bg-white text-base"
-                           value="{{ request.GET.q|default:'' }}">
-                    <button type="submit" class="bg-blue-600 text-white px-4 py-2.5 hover:bg-blue-700 transition-colors duration-200 flex items-center justify-center">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                        <span class="sr-only">Search</span>
-                    </button>
-                </form>
-                <!-- Live Search Suggestions Container -->
-                <ul id="searchResults" class="search-suggestions hidden"></ul>
-            </div>
+                <div class="search-form-wrapper relative">
+                    <form action="{% url 'products' %}" method="get" class="search-form relative w-64 md:w-72">
+                        <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                        </span>
+                        <input type="search" name="q" id="searchInput" placeholder="Search products..."
+                               class="w-full pl-11 pr-4 py-2.5 bg-gray-100 border-2 border-transparent rounded-lg text-gray-800 placeholder-gray-500 focus:outline-none focus:bg-white focus:border-blue-500 transition-colors duration-200"
+                               value="{{ request.GET.q|default:'' }}">
+                    </form>
+                    <ul id="searchResults" class="search-suggestions hidden"></ul>
+                </div>
 
 
-            <!-- Navigation Links -->
             <ul class="nav-links hidden md:flex items-center space-x-6" id="nav-links">
                 <li><a href="/" class="text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200 py-2">Home</a></li>
                 <li><a href="/about/" class="text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200 py-2">About Us</a></li>
@@ -176,7 +166,6 @@
                 </li>
                 <li><a href="{% url 'downloads' %}" class="text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200 py-2">Downloads</a></li>
                 <li><a href="/contact/" class="text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200 py-2">Contact Us</a></li>
-                <!-- NEW: Quote Cart Link with dynamic count -->
                 <li>
                     <a href="{% url 'view_quote_cart' %}" class="relative text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200 py-2 flex items-center">
                         <svg class="w-6 h-6 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
@@ -195,10 +184,8 @@
         {% block content %}{% endblock %}
     </main>
 
-    <!-- Footer Section - Enhanced with Company Details -->
     <footer class="bg-gray-900 text-white py-12 mt-16 shadow-inner">
         <div class="container mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
-            <!-- Company Info Column -->
             <div>
                 <h3 class="text-lg font-bold text-blue-400 mb-4">Rachana Corporation</h3>
                 <p class="text-gray-300 text-sm leading-relaxed">
@@ -206,22 +193,20 @@
                 </p>
             </div>
 
-            <!-- Address Column -->
             <div>
                 <h3 class="text-lg font-bold text-blue-400 mb-4">Our Location</h3>
                 <p class="text-gray-300 text-sm">
-                    123, Industrial Area, Phase-1<br>
+                    18, Siddharth Nagar, Bhawarkua Square<br>
                     Indore, Madhya Pradesh - 452001<br>
                     India
                 </p>
             </div>
 
-            <!-- Contact Details Column -->
             <div>
                 <h3 class="text-lg font-bold text-blue-400 mb-4">Contact Us</h3>
                 <p class="text-gray-300 text-sm">
-                    Phone: <a href="tel:+911234567890" class="hover:text-blue-300 transition-colors duration-200">+91 12345 67890</a><br>
-                    Email: <a href="mailto:info@rachanacorp.com" class="hover:text-blue-300 transition-colors duration-200">info@rachanacorp.com</a><br>
+                    Phone: <a href="tel:+919926734034" class="hover:text-blue-300 transition-colors duration-200">+91 12345 67890</a><br>
+                    Email: <a href="mailto:rachanacorporation@gmail.com" class="hover:text-blue-300 transition-colors duration-200">info@rachanacorp.com</a><br>
                     <a href="/contact/" class="inline-block mt-4 text-blue-300 hover:text-blue-100 transition-colors duration-200 text-sm font-medium">
                         Send a message &rarr;
                     </a>
