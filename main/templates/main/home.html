@@ -16,53 +16,6 @@
     </div>
 </section>
 
-<!-- NEW: Our Top Customers Section with Infinite Scroll -->
-<section class="our-customers-section py-16 px-4 bg-gray-100 text-center">
-    <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-12">Our Top Clients</h2>
-    <div class="space-y-8">
-        <div class="marquee-container overflow-hidden py-4 border-y border-gray-200">
-            <div class="marquee-content flex animate-marquee-left">
-                {% for logo in customer_logos %}
-                <div class="logo-item flex-shrink-0 w-48 h-24 flex items-center justify-center p-2">
-                    <a href="{{ logo.website_url }}" target="_blank" rel="noopener noreferrer" class="block">
-                        <img src="{{ logo.logo_image.url }}" alt="{{ logo.name }} Logo" class="max-h-full max-w-full object-contain transition-all duration-300">
-                    </a>
-                </div>
-                {% endfor %}
-                {# Duplicate logos for seamless infinite scroll #}
-                {% for logo in customer_logos %}
-                <div class="logo-item flex-shrink-0 w-48 h-24 flex items-center justify-center p-2">
-                    <a href="{{ logo.website_url }}" target="_blank" rel="noopener noreferrer" class="block">
-                        <img src="{{ logo.logo_image.url }}" alt="{{ logo.name }} Logo" class="max-h-full max-w-full object-contain transition-all duration-300">
-                    </a>
-                </div>
-                {% endfor %}
-            </div>
-        </div>
-
-        <div class="marquee-container overflow-hidden py-4 border-y border-gray-200">
-            <div class="marquee-content flex animate-marquee-right">
-                {% for logo in customer_logos reversed %} {# Reverse order for opposite direction #}
-                <div class="logo-item flex-shrink-0 w-48 h-24 flex items-center justify-center p-2">
-                    <a href="{{ logo.website_url }}" target="_blank" rel="noopener noreferrer" class="block">
-                        <img src="{{ logo.logo_image.url }}" alt="{{ logo.name }} Logo" class="max-h-full max-w-full object-contain transition-all duration-300">
-                    </a>
-                </div>
-                {% endfor %}
-                {# Duplicate logos for seamless infinite scroll #}
-                {% for logo in customer_logos reversed %}
-                <div class="logo-item flex-shrink-0 w-48 h-24 flex items-center justify-center p-2">
-                    <a href="{{ logo.website_url }}" target="_blank" rel="noopener noreferrer" class="block">
-                        <img src="{{ logo.logo_image.url }}" alt="{{ logo.name }} Logo" class="max-h-full max-w-full object-contain transition-all duration-300">
-                    </a>
-                </div>
-                {% endfor %}
-            </div>
-        </div>
-    </div>
-</section>
-
-
 <section class="category-product-sections py-16 px-4 container mx-auto">
     <h2 class="text-4xl md:text-5xl font-bold text-center text-gray-900 mb-14 leading-tight">Explore Our Product Range</h2>
 
@@ -113,5 +66,51 @@
     {% empty %}
     <p class="text-center text-gray-700 text-lg">No product categories available at the moment. Please check back later!</p>
     {% endfor %}
+</section>
+
+<!-- NEW: Our Top Customers Section with Infinite Scroll -->
+<section class="our-customers-section py-16 px-4 bg-gray-100 text-center">
+    <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-12">Our Top Clients</h2>
+    <div class="space-y-8">
+        <div class="marquee-container overflow-hidden py-4 border-y border-gray-200">
+            <div class="marquee-content flex animate-marquee-left">
+                {% for logo in customer_logos %}
+                <div class="logo-item flex-shrink-0 w-48 h-24 flex items-center justify-center p-2">
+                    <a href="{{ logo.website_url }}" target="_blank" rel="noopener noreferrer" class="block">
+                        <img src="{{ logo.logo_image.url }}" alt="{{ logo.name }} Logo" class="max-h-full max-w-full object-contain transition-all duration-300">
+                    </a>
+                </div>
+                {% endfor %}
+                {# Duplicate logos for seamless infinite scroll #}
+                {% for logo in customer_logos %}
+                <div class="logo-item flex-shrink-0 w-48 h-24 flex items-center justify-center p-2">
+                    <a href="{{ logo.website_url }}" target="_blank" rel="noopener noreferrer" class="block">
+                        <img src="{{ logo.logo_image.url }}" alt="{{ logo.name }} Logo" class="max-h-full max-w-full object-contain transition-all duration-300">
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="marquee-container overflow-hidden py-4 border-y border-gray-200">
+            <div class="marquee-content flex animate-marquee-right">
+                {% for logo in customer_logos reversed %} {# Reverse order for opposite direction #}
+                <div class="logo-item flex-shrink-0 w-48 h-24 flex items-center justify-center p-2">
+                    <a href="{{ logo.website_url }}" target="_blank" rel="noopener noreferrer" class="block">
+                        <img src="{{ logo.logo_image.url }}" alt="{{ logo.name }} Logo" class="max-h-full max-w-full object-contain transition-all duration-300">
+                    </a>
+                </div>
+                {% endfor %}
+                {# Duplicate logos for seamless infinite scroll #}
+                {% for logo in customer_logos reversed %}
+                <div class="logo-item flex-shrink-0 w-48 h-24 flex items-center justify-center p-2">
+                    <a href="{{ logo.website_url }}" target="_blank" rel="noopener noreferrer" class="block">
+                        <img src="{{ logo.logo_image.url }}" alt="{{ logo.name }} Logo" class="max-h-full max-w-full object-contain transition-all duration-300">
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
 </section>
 {% endblock %}
