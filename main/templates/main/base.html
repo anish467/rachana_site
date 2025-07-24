@@ -167,7 +167,8 @@
                             text-blue-600 bg-blue-50 hover:text-blue-600 hover:bg-blue-50
                         {% else %}
                             text-gray-700 hover:text-blue-600 hover:bg-blue-50
-                        {% endif %}">
+                        {% endif %}"
+                        {% if request.path == '/' %}aria-current="page"{% endif %}>
                         Home
                     </a>
                 </li>
@@ -178,7 +179,8 @@
                             text-blue-600 bg-blue-50 hover:text-blue-600 hover:bg-blue-50
                         {% else %}
                             text-gray-700 hover:text-blue-600 hover:bg-blue-50
-                        {% endif %}">
+                        {% endif %}"
+                        {% if request.path == '/about/' %}aria-current="page"{% endif %}>
                         About Us
                     </a>
                 </li>
@@ -189,7 +191,8 @@
                             text-blue-600 bg-blue-50 hover:text-blue-600 hover:bg-blue-50
                         {% else %}
                             text-gray-700 hover:text-blue-600 hover:bg-blue-50
-                        {% endif %}">
+                        {% endif %}"
+                        {% if '/products/' in request.path %}aria-current="page"{% endif %}>
                         Products
                         <svg class="ml-1 w-4 h-4 transform group-hover:rotate-180 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </a>
@@ -211,7 +214,8 @@
                             text-blue-600 bg-blue-50 hover:text-blue-600 hover:bg-blue-50
                         {% else %}
                             text-gray-700 hover:text-blue-600 hover:bg-blue-50
-                        {% endif %}">
+                        {% endif %}"
+                        {% if request.path == '/downloads/' %}aria-current="page"{% endif %}>
                         Downloads
                     </a>
                 </li>
@@ -222,7 +226,8 @@
                             text-blue-600 bg-blue-50 hover:text-blue-600 hover:bg-blue-50
                         {% else %}
                             text-gray-700 hover:text-blue-600 hover:bg-blue-50
-                        {% endif %}">
+                        {% endif %}"
+                        {% if request.path == '/contact/' %}aria-current="page"{% endif %}>
                         Contact Us
                     </a>
                 </li>
@@ -233,7 +238,8 @@
                             text-blue-600 bg-blue-50 hover:text-blue-600 hover:bg-blue-50
                         {% else %}
                             text-gray-700 hover:text-blue-600 hover:bg-blue-50
-                        {% endif %}">
+                        {% endif %}"
+                        {% if request.path == '/quote/' %}aria-current="page"{% endif %}>
                         <svg class="w-6 h-6 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
                         Quote Cart
                         <span id="quoteCartCount" class="absolute -top-1 -right-2 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center
@@ -242,8 +248,7 @@
                         </span>
                     </a>
                 </li>
-            </ul>
-            
+            </ul>            
         </nav>
     </header>
 
