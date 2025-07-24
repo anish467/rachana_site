@@ -34,6 +34,13 @@
 
         <!-- Product Information Column -->
         <div class="w-full md:w-1/2 text-center md:text-left">
+            {# Category Tag just above the product name #}
+            {% if product.category %}
+                <span class="inline-block bg-blue-50 text-blue-700 text-sm font-medium px-4 py-1 rounded-full mb-3 shadow-sm">
+                    {{ product.category.name }}
+                </span>
+            {% endif %}
+
             <h2 class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4 leading-tight">
                 {{ product.name }}
             </h2>
@@ -54,66 +61,33 @@
                 </button>
             </div>
 
-
+            <!-- Dynamic Specifications (Card-like layout) -->
+            {% if product.parameter_values.all %}
             <div class="mt-8 pt-8 border-t-2 border-gray-100">
-                <h3 class="text-2xl font-bold text-gray-800 mb-5">Key Features:</h3>
-                <ul class="list-disc list-inside text-gray-600 text-base space-y-3 pl-4">
-                    <li class="flex items-start">
-                        <svg class="w-5 h-5 text-blue-500 mr-2 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 set_global_var = 00-1.414-1.414L9 10.586 7.707 9.293a1 1 set_global_var = 00-1.414 1.414l2 2a1 1 set_global_var = 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
-                        <p>High precision measurement for accurate results.</p>
-                    </li>
-                    <li class="flex items-start">
-                        <svg class="w-5 h-5 text-blue-500 mr-2 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 set_global_var = 00-1.414-1.414L9 10.586 7.707 9.293a1 1 set_global_var = 00-1.414 1.414l2 2a1 1 set_global_var = 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
-                        <p>Durable and robust design ensuring long-term reliability.</p>
-                    </li>
-                    <li class="flex items-start">
-                        <svg class="w-5 h-5 text-blue-500 mr-2 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 set_global_var = 00-1.414-1.414L9 10.586 7.707 9.293a1 1 set_global_var = 00-1.414 1.414l2 2a1 1 set_global_var = 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
-                        <p>Easy to calibrate and maintain, minimizing downtime.</p>
-                    </li>
-                    <li class="flex items-start">
-                        <svg class="w-5 h-5 text-blue-500 mr-2 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 set_global_var = 00-1.414-1.414L9 10.586 7.707 9.293a1 1 set_global_var = 00-1.414 1.414l2 2a1 1 set_global_var = 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
-                        <p>Officially certified for accuracy and compliance.</p>
-                    </li>
-                    <li class="flex items-start">
-                        <svg class="w-5 h-5 text-blue-500 mr-2 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 set_global_var = 00-1.414-1.414L9 10.586 7.707 9.293a1 1 set_global_var = 00-1.414 1.414l2 2a1 1 set_global_var = 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
-                        <p>Versatile for various industrial and commercial applications.</p>
-                    </li>
-                </ul>
+                <h3 class="text-2xl font-bold text-gray-800 mb-5">Technical Specifications:</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    {% for param_value in product.parameter_values.all %}
+                    <div class="bg-gray-50 p-5 rounded-xl border border-gray-100 shadow-sm">
+                        <p class="text-sm font-medium text-gray-600 mb-1">{{ param_value.parameter.name }}</p>
+                        <p class="text-xl font-bold text-gray-800">{{ param_value.value }}</p>
+                    </div>
+                    {% endfor %}
+                </div>
             </div>
+            {% endif %}
+
             <div class="mt-10 flex flex-col sm:flex-row sm:justify-center md:justify-start gap-5">
                 <a href="/contact/"
                    class="bg-blue-600 text-white py-3.5 px-10 rounded-lg font-bold text-lg hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-500 focus:ring-opacity-70 transition-all duration-300 shadow-lg transform hover:scale-102 active:scale-98">
                     Enquire Now
                 </a>
-                <a href="/products/"
+                <a href="{% url 'products' %}"
                    class="bg-gray-200 text-gray-800 py-3.5 px-10 rounded-lg font-bold text-lg hover:bg-gray-300 focus:outline-none focus:ring-4 focus:ring-gray-400 focus:ring-opacity-50 transition-all duration-300 shadow-md transform hover:scale-102 active:scale-98">
                     Back to Products
                 </a>
             </div>
         </div>
     </div>
-
-    <!-- Dynamic Specification Table -->
-    {% if product.parameter_values.all %}
-    <div class="dynamic-spec-table mt-16 max-w-6xl mx-auto bg-white p-8 md:p-10 rounded-3xl shadow-3xl border border-gray-100 animate-fade-in-scale">
-        <h3 class="text-3xl font-bold text-gray-900 mb-8 text-center">Technical Specifications</h3>
-        <table class="w-full text-left table-auto">
-            <tbody class="divide-y divide-gray-200">
-                {% for param_value in product.parameter_values.all %}
-                    <tr class="{% cycle 'bg-white' 'bg-blue-50' %} hover:bg-gray-100 transition-colors duration-150">
-                        <td class="px-6 py-3 font-semibold text-gray-700 rounded-l-lg md:rounded-l-none">
-                            {{ param_value.parameter.name }}
-                        </td>
-                        <td class="px-6 py-3 text-gray-800 rounded-r-lg md:rounded-r-none">
-                            {{ param_value.value }}
-                        </td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-    {% endif %}
-
 </section>
 
 <script>
@@ -173,12 +147,14 @@
                         }
                     } else {
                         console.error('Error:', data.error);
-                        alert('Error updating quote cart: ' + data.error); // Fallback alert
+                        // Using a custom modal/message box instead of alert()
+                        displayMessage('Error updating quote cart: ' + data.error, 'error');
                     }
                 })
                 .catch(error => {
                     console.error('Network error:', error);
-                    alert('Network error when updating quote cart.'); // Fallback alert
+                    // Using a custom modal/message box instead of alert()
+                    displayMessage('Network error when updating quote cart.', 'error');
                 });
             });
         }
@@ -199,6 +175,27 @@
             }
             return cookieValue;
         }
+
+        // --- Custom Message Display Function (Instead of alert()) ---
+        function displayMessage(message, type) {
+            const messageContainer = document.createElement('div');
+            messageContainer.classList.add('fixed', 'bottom-4', 'right-4', 'p-4', 'rounded-lg', 'shadow-lg', 'text-white', 'z-[1000]');
+
+            if (type === 'success') {
+                messageContainer.classList.add('bg-green-500');
+            } else if (type === 'error') {
+                messageContainer.classList.add('bg-red-500');
+            } else {
+                messageContainer.classList.add('bg-gray-700'); // Default
+            }
+
+            messageContainer.textContent = message;
+            document.body.appendChild(messageContainer);
+
+            // Automatically remove message after 5 seconds
+            setTimeout(() => {
+                messageContainer.remove();
+            }, 5000);
+        }
     });
 </script>
-{% endblock %}
