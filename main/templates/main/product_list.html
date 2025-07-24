@@ -23,7 +23,7 @@
                     {% for cat in categories %}
                         {# Each option links to the products list filtered by that category's ID #}
                         {# 'selected' attribute highlights the current active category #}
-                        <option value="{% url 'products_by_category' cat.id %}" {% if current_category and current_category.id == cat.id %}selected{% endif %}>{{ cat.name }}</option>
+                        <option value="{% url 'category_products' cat.id %}" {% if current_category and current_category.id == cat.id %}selected{% endif %}>{{ cat.name }}</option>
                     {% endfor %}
                 </select>
                 {# Custom dropdown arrow icon for styling #}
@@ -41,7 +41,7 @@
         {# Loop through all categories to create individual filter tags #}
         {% for cat in categories %}
             {# Each tag links to the category-filtered product list, highlighting if it's the current category #}
-            <a href="{% url 'products_by_category' cat.id %}" class="flex-shrink-0 px-4 py-2 rounded-full text-sm font-medium {% if current_category and current_category.id == cat.id %}bg-blue-600 text-white{% else %}bg-gray-200 text-gray-700 hover:bg-blue-100{% endif %} transition-colors duration-200">{{ cat.name }}</a>
+            <a href="{% url 'category_products' cat.id %}" class="flex-shrink-0 px-4 py-2 rounded-full text-sm font-medium {% if current_category and current_category.id == cat.id %}bg-blue-600 text-white{% else %}bg-gray-200 text-gray-700 hover:bg-blue-100{% endif %} transition-colors duration-200">{{ cat.name }}</a>
         {% endfor %}
     </div>
 </div>
