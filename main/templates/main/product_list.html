@@ -2,45 +2,110 @@
 {% load static %}
 
 {% block content %}
-<section class="products-list-section py-16 px-4 container mx-auto">
-    <h2 class="text-4xl md:text-5xl font-bold text-center text-gray-900 mb-14 leading-tight">
-        {% if query %}
-            Search Results for "{{ query }}"
-        {% elif current_category %}
-            {{ current_category.name }} Products
-        {% else %}
-            Our Comprehensive Product Range
-        {% endif %}
-    </h2>
+<div class="container mx-auto px-4 pt-8"> {# Added container, padding, and top margin for overall layout #}
+    <div class="flex justify-between items-center mb-6">
+        {# "Products (X)" header, dynamically displaying the count #}
+        <h1 class="text-2xl font-semibold text-gray-800">Products ({{ products.count }})</h1>
+        <div class="flex items-center space-x-4">
+            {# Filter Icon - This is a simple SVG. You can replace it with a more elaborate filter icon if desired (e.g., from Font Awesome or Heroicons). #}
+            <button class="text-gray-600 hover:text-gray-900">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 3c2.75 0 5 2.25 5 5s-2.25 5-5 5-5-2.25-5-5 2.25-5 5-5Zm0 14c-2.75 0-5-2.25-5-5v-1c0-2.75 2.25-5 5-5s5 2.25 5 5v1c0 2.75-2.25 5-5 5Z" />
+                </svg>
+            </button>
+            {# "All Categories" Dropdown Select element #}
+            <div class="relative">
+                {# The onchange event navigates the browser to the selected category's URL #}
+                <select onchange="window.location.href=this.value" class="block appearance-none w-full bg-white border border-gray-300 text-gray-700 py-2 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-blue-500">
+                    {# Option to view all products, selected if no specific category is active #}
+                    <option value="{% url 'products' %}" {% if not current_category %}selected{% endif %}>All Categories</option>
+                    {# Loop through all available categories passed from the view to populate the dropdown #}
+                    {% for cat in categories %}
+                        {# Each option links to the products list filtered by that category's ID #}
+                        {# 'selected' attribute highlights the current active category #}
+                        <option value="{% url 'products_by_category' cat.id %}" {% if current_category and current_category.id == cat.id %}selected{% endif %}>{{ cat.name }}</option>
+                    {% endfor %}
+                </select>
+                {# Custom dropdown arrow icon for styling #}
+                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                    <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    {# Category Tags/Filters - displayed as horizontal pills below the header #}
+    <div class="flex space-x-2 mb-8 overflow-x-auto pb-2"> {# `overflow-x-auto` makes tags scrollable on small screens if many tags #}
+        {# "All" tag - links to the unfiltered product list #}
+        <a href="{% url 'products' %}" class="flex-shrink-0 px-4 py-2 rounded-full text-sm font-medium {% if not current_category %}bg-blue-600 text-white{% else %}bg-gray-200 text-gray-700 hover:bg-blue-100{% endif %} transition-colors duration-200">All</a>
+        {# Loop through all categories to create individual filter tags #}
+        {% for cat in categories %}
+            {# Each tag links to the category-filtered product list, highlighting if it's the current category #}
+            <a href="{% url 'products_by_category' cat.id %}" class="flex-shrink-0 px-4 py-2 rounded-full text-sm font-medium {% if current_category and current_category.id == cat.id %}bg-blue-600 text-white{% else %}bg-gray-200 text-gray-700 hover:bg-blue-100{% endif %} transition-colors duration-200">{{ cat.name }}</a>
+        {% endfor %}
+    </div>
+</div>
+
+{# Main section for the product grid #}
+<section class="products-list-section px-4 container mx-auto">
+    {# Display a search results title if a search query is active #}
+    {% if query %}
+        <h2 class="text-4xl md:text-5xl font-bold text-center text-gray-900 mb-14 leading-tight">
+            Search Results for "{{ query }}"
+        </h2>
+    {% endif %}
+
+    {# Product Grid Layout - responsive grid for product cards #}
     <div class="products-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 animate-fade-in-grid">
         {% for p in products %}
-            <div class="product-card bg-white border border-gray-100 rounded-lg shadow-md overflow-hidden transform hover:scale-102 hover:shadow-xl transition-all duration-300 ease-in-out flex flex-col">
-                <div class="w-full h-[288px] bg-gray-50 flex items-center justify-center overflow-hidden">
+            {# Individual Product Card structure #}
+            <div class="product-card bg-white border border-gray-100 rounded-lg shadow-md overflow-hidden flex flex-col">
+                {# Product Image Container - fixed height, centered, and padded #}
+                <div class="w-full h-48 bg-gray-50 flex items-center justify-center overflow-hidden p-4">
                     {% if p.main_image %}
-                        <img src="{{ p.main_image.url }}" alt="{{ p.name }}" class="object-cover w-full h-full">
+                        {# Displays the product's main image, ensuring it fits within the container #}
+                        <img src="{{ p.main_image.url }}" alt="{{ p.name }}" class="object-contain w-full h-full">
                     {% else %}
+                        {# Placeholder image if no main image is available for the product #}
                         <img src="https://placehold.co/600x400/E0E7FF/3B82F6?text=No+Image" alt="No image available" class="object-contain w-full h-full p-4">
                     {% endif %}
                 </div>
 
+                {# Product Information Section - text details of the product #}
                 <div class="p-4 flex-grow text-left">
-                    <h4 class="text-lg font-semibold text-gray-800 line-clamp-2 mb-0.5">
+                    {# Category Tag inside the card (e.g., "Standard Weights") #}
+                    {% if p.category %}
+                        <span class="inline-block bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded-full mb-2">{{ p.category.name }}</span>
+                    {% endif %}
+                    {# Product Name (e.g., "20kg") - larger and bold #}
+                    <h4 class="text-xl font-bold text-gray-900 line-clamp-2 mb-0.5">
                         {{ p.name }}
                     </h4>
-                    <p class="text-sm text-gray-500 mb-3">
-                        {{ p.category.name|default:"General Product" }}
+                    {# Product Short Description/Type (e.g., "ss weight") #}
+                    {# This uses the `short_description` field from your Product model. Ensure it's populated. #}
+                    <p class="text-sm text-gray-600 mb-1">
+                        {{ p.short_description|default:"" }}
                     </p>
+                    {# Static label "Key Specifications:" as seen in the screenshot #}
+                    <p class="text-sm font-medium text-gray-800 mt-2">Key Specifications:</p>
                 </div>
 
+                {# "View Details" Link at the bottom of the card #}
                 <div class="px-4 pb-4 mt-auto">
-                    <a href="/product/{{ p.id }}/"
-                       class="block w-full text-center bg-blue-600 text-white py-2.5 px-4 rounded-md text-sm font-bold hover:bg-blue-700 transition-colors duration-200 shadow-md">
+                    {# Link to the individual product detail page #}
+                    {# Uses `p.pk` (primary key) for the URL, matching your `product_detail` view #}
+                    <a href="{% url 'product_detail' p.pk %}"
+                       class="inline-flex items-center text-blue-600 hover:text-blue-800 text-sm font-bold transition-colors duration-200">
                         View Details
+                        {# Right arrow SVG icon next to "View Details" text #}
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4 ml-1">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3" />
+                        </svg>
                     </a>
                 </div>
             </div>
         {% empty %}
+        {# Message displayed if no products are found matching the criteria #}
         <div class="col-span-full text-center text-gray-700 text-lg py-10">
             <p>No products found matching your criteria.</p>
             {% if query %}
