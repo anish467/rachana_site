@@ -1,313 +1,34 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rachana Corporation - Precision Weighing Solutions</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <style>
-        /* Apply Inter font globally and reset some default styles */
-        body {
-            font-family: 'Inter', sans-serif;
-            @apply bg-gray-50 text-gray-800 antialiased; /* Set a light background, default text color, and anti-aliasing */
-        }
-        /* Custom styling for the dropdown to ensure it appears above content */
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            background-color: #fff; /* White background for dropdown */
-            min-width: 200px; /* Slightly wider dropdown for more content */
-            box-shadow: 0px 10px 30px rgba(0,0,0,0.1); /* Softer, slightly larger shadow */
-            z-index: 1000; /* Ensure it's on top of other content */
-            border-radius: 0.75rem; /* More rounded corners, consistent with cards */
-            overflow: hidden; /* Hide overflow */
-            opacity: 0;
-            transform: translateY(5px); /* MODIFIED: Makes the animation shorter and smoother */
-            transition: opacity 0.3s ease-out, transform 0.3s ease-out; /* Smooth transition */
-            @apply p-2 space-y-1 border border-gray-100; /* MODIFIED: Removed mt-3 */
-        }
-        .dropdown:hover .dropdown-content {
-            display: block; /* Show dropdown on hover */
-            opacity: 1;
-            transform: translateY(0); /* Animate into view */
-        }
-        .dropdown-content li a {
-            @apply block px-4 py-2 text-base text-gray-700 hover:bg-blue-50 hover:text-blue-700 rounded-lg transition-colors duration-200; /* Larger padding, text, and rounder hover */
-        }
-
-        /* --- NEW/MODIFIED: Styling for the active nav link box --- */
-        .nav-links a.active {
-            @apply bg-blue-50 text-blue-700 px-4 py-2 rounded-lg; /* Light blue background, blue text, rounded corners */
-        }
-        /* Ensure hover effect still works nicely on active links */
-        .nav-links a.active:hover {
-            @apply bg-blue-100; /* Slightly darker blue on hover for active link */
-        }
-        /* --- END NEW/MODIFIED --- */
-
-        /* Responsive hamburger menu icon */
-        .hamburger {
-            display: none; /* Hidden by default on larger screens */
-            cursor: pointer;
-            @apply text-gray-800 text-3xl;
-        }
-        @media (max-width: 768px) { /* On small screens (mobile) */
-            .hamburger {
-                display: block; /* Show hamburger icon */
-            }
-            .nav-links {
-                display: none; /* Hide navigation links by default */
-                flex-direction: column; /* Stack links vertically */
-                width: 100%;
-                /* Adjusted top to match new header height */
-                @apply absolute top-[96px] left-0 bg-white shadow-xl py-4 px-6 space-y-2 z-50 transition-all duration-300 ease-in-out;
-            }
-            .nav-links.open {
-                display: flex; /* Show navigation links when open */
-            }
-            .nav-links li {
-                @apply w-full text-center;
-            }
-            .nav-links a {
-                /* Reset active styling for mobile, apply simple block styling */
-                @apply block py-3 px-4 text-lg bg-transparent text-gray-700 rounded-none;
-            }
-            .nav-links a.active {
-                /* Specific active styling for mobile if desired, or let the general .nav-links a apply */
-                @apply text-blue-600 font-semibold bg-blue-50; /* Example: highlight with background for mobile */
-            }
-            .dropdown-content {
-                position: static; /* Make dropdown static in mobile menu */
-                box-shadow: none; /* Remove shadow */
-                @apply bg-gray-100 mt-2 py-2 rounded-lg; /* Slightly lighter background for nested menu */
-            }
-            .dropdown:hover .dropdown-content {
-                display: block;
-            }
-            /* Adjust layout for search on small screens */
-            .header-content {
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-            .search-form-wrapper {
-                width: 100%;
-                order: 3; /* Move search below logo and nav toggle */
-                margin-top: 1rem;
-            }
-        }
-        @media (min-width: 769px) { /* On larger screens */
-            .search-form-wrapper {
-                margin-left: auto; /* Push search to the right */
-                margin-right: 1.5rem; /* Add some space before nav links */
-            }
-        }
-
-        /* Styling for live search suggestions dropdown */
-        .search-suggestions {
-            position: absolute;
-            width: 100%; /* Match width of search bar */
-            background-color: white;
-            border: 1px solid #e2e8f0;
-            border-radius: 0.5rem;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            max-height: 250px;
-            overflow-y: auto;
-            z-index: 100; /* Ensure it's above other content */
-            list-style: none; /* Remove bullet points */
-            padding: 0;
-            margin-top: 0.25rem; /* Small space below search bar */
-        }
-        .search-suggestions li {
-            padding: 0.75rem 1rem;
-            cursor: pointer;
-            color: #4a5568;
-            font-size: 0.95rem;
-            transition: background-color 0.2s ease;
-        }
-        .search-suggestions li:hover {
-            background-color: #f0f4f8; /* Light blue on hover */
-            color: #2b6cb0; /* Darker blue text on hover */
-        }
-        .search-suggestions li:last-child {
-            border-bottom-left-radius: 0.5rem;
-            border-bottom-right-radius: 0.5rem;
-        }
-    </style>
-</head>
-<body>
-    <header class="bg-white shadow-md sticky top-0 z-50 border-b border-gray-100">
-        <nav class="container mx-auto px-4 py-3 flex justify-between items-center h-24">
-            <a href="/" class="logo flex items-center space-x-2 animate-fade-in-left">
-                <img src="{% static 'images/logo.jpg' %}" alt="Rachana Corporation Logo" class="h-20 w-20 object-cover rounded-full">
-                <span class="text-xl font-extrabold text-gray-900 hidden sm:block">Rachana <span class="text-blue-600">Corporation</span></span>
-            </a>
-
-            <button class="hamburger md:hidden focus:outline-none" id="hamburger-menu" aria-label="Toggle navigation">&#9776;</button>
-
-            <div class="search-form-wrapper relative">
-                <form action="{% url 'products' %}" method="get" class="search-form relative w-64 md:w-72">
-                    <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                    </span>
-                    <input type="search" name="q" id="searchInput" placeholder="Search products..."
-                           class="w-full pl-11 pr-4 py-2.5 bg-gray-100 border-2 border-transparent rounded-lg text-gray-800 placeholder-gray-500 focus:outline-none focus:bg-white focus:border-blue-500 transition-colors duration-200"
-                           value="{{ request.GET.q|default:'' }}">
-                </form>
-                <ul id="searchResults" class="search-suggestions hidden"></ul>
-            </div>
-
-            <ul class="nav-links hidden md:flex items-center space-x-6" id="nav-links">
-                {# Home Link #}
-                <li><a href="/" class="text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200 py-2 {% if request.path == '/' %}active{% endif %}">Home</a></li>
-                {# About Us Link #}
-                <li><a href="/about/" class="text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200 py-2 {% if request.path == '/about/' %}active{% endif %}">About Us</a></li>
-                {# Products Dropdown #}
-                <li class="dropdown relative group">
-                    <a href="/products/" class="text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200 py-2 inline-flex items-center {% if '/products/' in request.path %}active{% endif %}">
-                        Products
-                        <svg class="ml-1 w-4 h-4 transform group-hover:rotate-180 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                    </a>
-                    <ul class="dropdown-content">
-                        {# Loop through categories for product sub-links #}
-                        {% for cat in categories %}
-                        <li><a href="{% url 'category_products' cat.id %}">{{ cat.name }}</a></li>
-                        {% endfor %}
-                    </ul>
-                </li>
-                {# Downloads Link #}
-                <li><a href="{% url 'downloads' %}" class="text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200 py-2 {% if request.path == '/downloads/' %}active{% endif %}">Downloads</a></li>
-                {# Contact Us Link #}
-                <li><a href="/contact/" class="text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200 py-2 {% if request.path == '/contact/' %}active{% endif %}">Contact Us</a></li>
-                {# Quote Cart Link with Count #}
-                <li>
-                    <a href="{% url 'view_quote_cart' %}" class="relative text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200 py-2 flex items-center {% if request.path == '/quote/' %}active{% endif %}">
-                        <svg class="w-6 h-6 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
-                        Quote Cart
-                        <span id="quoteCartCount" class="absolute -top-1 -right-2 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center
-                                {% if not request.session.quote_cart or request.session.quote_cart|length == 0 %} hidden {% endif %}">
-                            {{ request.session.quote_cart|length|default:"0" }}
-                        </span>
-                    </a>
-                </li>
-            </ul>
-        </nav>
-    </header>
-
-    <main>
-        {% block content %}{% endblock %}
-    </main>
-
-    <footer class="bg-gray-900 text-white py-12 mt-16 shadow-inner">
-        <div class="container mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
-            <div>
-                <h3 class="text-lg font-bold text-blue-400 mb-4">Rachana Corporation</h3>
-                <p class="text-gray-300 text-sm leading-relaxed">
-                    Dedicated to supplying certified weights & weighing balances for over two decades. Your trusted partner in precision.
-                </p>
-            </div>
-
-            <div>
-                <h3 class="text-lg font-bold text-blue-400 mb-4">Our Location</h3>
-                <p class="text-gray-300 text-sm">
-                    18, Siddharth Nagar, Bhawarkua Square<br>
-                    Indore, Madhya Pradesh - 452001<br>
-                    India
-                </p>
-            </div>
-
-            <div>
-                <h3 class="text-lg font-bold text-blue-400 mb-4">Contact Us</h3>
-                <p class="text-gray-300 text-sm">
-                    Phone: <a href="tel:+919926734034" class="hover:text-blue-300 transition-colors duration-200">+91 99267 34034</a><br>
-                    Email: <a href="mailto:rachanacorporation@gmail.com" class="hover:text-blue-300 transition-colors duration-200">rachanacorporation@gmail.com</a><br>
-                    <a href="/contact/" class="inline-block mt-4 text-blue-300 hover:text-blue-100 transition-colors duration-200 text-sm font-medium">
-                        Send a message &rarr;
-                    </a>
-                </p>
-            </div>
-        </div>
-
-        <div class="container mx-auto px-4 text-center border-t border-gray-700 mt-8 pt-8">
-            <p class="text-sm md:text-base text-gray-500 mb-4 md:mb-0">&copy; {% now "Y" %} Rachana Corporation. All rights reserved.</p>
-            <div class="flex justify-center md:justify-end space-x-6 text-sm text-gray-400">
-                <a href="#" class="hover:text-blue-400 transition-colors duration-200">Privacy Policy</a>
-                <span class="text-gray-600">|</span>
-                <a href="#" class="hover:text-blue-400 transition-colors duration-200">Terms of Service</a>
-            </div>
-        </div>
-    </footer>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const hamburger = document.getElementById('hamburger-menu');
-            const navLinks = document.getElementById('nav-links');
-
-            if (hamburger && navLinks) {
-                hamburger.addEventListener('click', () => {
-                    navLinks.classList.toggle('open');
-                });
-            }
-
-            navLinks.querySelectorAll('a').forEach(link => {
-                link.addEventListener('click', () => {
-                    if (navLinks.classList.contains('open')) {
-                        navLinks.classList.remove('open');
-                    }
-                });
-            });
-
-            // Live Search Functionality
-            const searchInput = document.getElementById('searchInput');
-            const searchResultsContainer = document.getElementById('searchResults');
-            let debounceTimeout;
-
-            if (searchInput && searchResultsContainer) {
-                searchInput.addEventListener('input', function() {
-                    clearTimeout(debounceTimeout);
-                    const query = this.value;
-
-                    if (query.length > 2) { // Start searching after 2 characters
-                        debounceTimeout = setTimeout(() => {
-                            fetch(`/api/search-suggestions/?q=${encodeURIComponent(query)}`)
-                                .then(response => response.json())
-                                .then(data => {
-                                    searchResultsContainer.innerHTML = ''; // Clear previous results
-                                    if (data.products && data.products.length > 0) {
-                                        data.products.forEach(product => {
-                                            const li = document.createElement('li');
-                                            li.textContent = product.name;
-                                            li.dataset.productId = product.id;
-                                            li.addEventListener('click', () => {
-                                                window.location.href = `/product/${product.id}/`; // Go to product detail page
-                                            });
-                                            searchResultsContainer.appendChild(li);
-                                        });
-                                        searchResultsContainer.classList.remove('hidden');
-                                    } else {
-                                        searchResultsContainer.classList.add('hidden');
-                                    }
-                                })
-                                .catch(error => {
-                                    console.error('Error fetching search suggestions:', error);
-                                    searchResultsContainer.classList.add('hidden');
-                                });
-                        }, 300); // Debounce time (300ms)
-                    } else {
-                        searchResultsContainer.classList.add('hidden'); // Hide if query is too short
-                    }
-                });
-
-                // Hide suggestions when clicking outside
-                document.addEventListener('click', function(event) {
-                    if (!searchInput.contains(event.target) && !searchResultsContainer.contains(event.target)) {
-                        searchResultsContainer.classList.add('hidden');
-                    }
-                });
-            }
-        });
-    </script>
-</body>
-</html>
+<ul class="nav-links hidden md:flex items-center space-x-6" id="nav-links">
+    {# Home Link #}
+    <li><a href="/" class="text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200 py-2 {% if request.path == '/' %}active{% endif %}">Home</a></li>
+    {# About Us Link #}
+    <li><a href="/about/" class="text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200 py-2 {% if request.path == '/about/' %}active{% endif %}">About Us</a></li>
+    {# Products Dropdown #}
+    <li class="dropdown relative group">
+        <a href="/products/" class="text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200 py-2 inline-flex items-center {% if '/products/' in request.path %}active{% endif %}">
+            Products
+            <svg class="ml-1 w-4 h-4 transform group-hover:rotate-180 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+        </a>
+        <ul class="dropdown-content">
+            {# Loop through categories for product sub-links #}
+            {% for cat in categories %}
+            <li><a href="{% url 'category_products' cat.id %}">{{ cat.name }}</a></li>
+            {% endfor %}
+        </ul>
+    </li>
+    {# Downloads Link #}
+    <li><a href="{% url 'downloads' %}" class="text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200 py-2 {% if request.path == '/downloads/' %}active{% endif %}">Downloads</a></li>
+    {# Contact Us Link #}
+    <li><a href="/contact/" class="text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200 py-2 {% if request.path == '/contact/' %}active{% endif %}">Contact Us</a></li>
+    {# Quote Cart Link with Count #}
+    <li>
+        <a href="{% url 'view_quote_cart' %}" class="relative text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200 py-2 flex items-center {% if request.path == '/quote/' %}active{% endif %}">
+            <svg class="w-6 h-6 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
+            Quote Cart
+            <span id="quoteCartCount" class="absolute -top-1 -right-2 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center
+                    {% if not request.session.quote_cart or request.session.quote_cart|length == 0 %} hidden {% endif %}">
+                {{ request.session.quote_cart|length|default:"0" }}
+            </span>
+        </a>
+    </li>
+</ul>
