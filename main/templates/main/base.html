@@ -166,7 +166,7 @@
                         {% if request.path == '/' %}
                             text-blue-600 bg-blue-50 hover:text-blue-600 hover:bg-blue-50
                         {% else %}
-                            text-gray-700 hover:text-blue-600 hover:bg-gray-100 {# Changed hover:bg-blue-50 to hover:bg-gray-100 #}
+                            text-gray-700 hover:text-blue-600 hover:bg-gray-50 {# Changed hover:bg-gray-100 to hover:bg-gray-50 #}
                         {% endif %}"
                         {% if request.path == '/' %}aria-current="page"{% endif %}>
                         Home
@@ -178,7 +178,7 @@
                         {% if request.path == '/about/' %}
                             text-blue-600 bg-blue-50 hover:text-blue-600 hover:bg-blue-50
                         {% else %}
-                            text-gray-700 hover:text-blue-600 hover:bg-gray-100 {# Changed hover:bg-blue-50 to hover:bg-gray-100 #}
+                            text-gray-700 hover:text-blue-600 hover:bg-gray-50 {# Changed hover:bg-gray-100 to hover:bg-gray-50 #}
                         {% endif %}"
                         {% if request.path == '/about/' %}aria-current="page"{% endif %}>
                         About Us
@@ -190,7 +190,7 @@
                         {% if '/products/' in request.path %}
                             text-blue-600 bg-blue-50 hover:text-blue-600 hover:bg-blue-50
                         {% else %}
-                            text-gray-700 hover:text-blue-600 hover:bg-gray-100 {# Changed hover:bg-blue-50 to hover:bg-gray-100 #}
+                            text-gray-700 hover:text-blue-600 hover:bg-gray-50 {# Changed hover:bg-gray-100 to hover:bg-gray-50 #}
                         {% endif %}"
                         {% if '/products/' in request.path %}aria-current="page"{% endif %}>
                         Products
@@ -213,7 +213,7 @@
                         {% if request.path == '/downloads/' %}
                             text-blue-600 bg-blue-50 hover:text-blue-600 hover:bg-blue-50
                         {% else %}
-                            text-gray-700 hover:text-blue-600 hover:bg-gray-100 {# Changed hover:bg-blue-50 to hover:bg-gray-100 #}
+                            text-gray-700 hover:text-blue-600 hover:bg-gray-50 {# Changed hover:bg-gray-100 to hover:bg-gray-50 #}
                         {% endif %}"
                         {% if request.path == '/downloads/' %}aria-current="page"{% endif %}>
                         Downloads
@@ -225,7 +225,7 @@
                         {% if request.path == '/contact/' %}
                             text-blue-600 bg-blue-50 hover:text-blue-600 hover:bg-blue-50
                         {% else %}
-                            text-gray-700 hover:text-blue-600 hover:bg-gray-100 {# Changed hover:bg-blue-50 to hover:bg-gray-100 #}
+                            text-gray-700 hover:text-blue-600 hover:bg-gray-50 {# Changed hover:bg-gray-100 to hover:bg-gray-50 #}
                         {% endif %}"
                         {% if request.path == '/contact/' %}aria-current="page"{% endif %}>
                         Contact Us
@@ -237,7 +237,7 @@
                         {% if request.path == '/quote/' %}
                             text-blue-600 bg-blue-50 hover:text-blue-600 hover:bg-blue-50
                         {% else %}
-                            text-gray-700 hover:text-blue-600 hover:bg-gray-100 {# Changed hover:bg-blue-50 to hover:bg-gray-100 #}
+                            text-gray-700 hover:text-blue-600 hover:bg-gray-50 {# Changed hover:bg-gray-100 to hover:bg-gray-50 #}
                         {% endif %}"
                         {% if request.path == '/quote/' %}aria-current="page"{% endif %}>
                         <svg class="w-6 h-6 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
@@ -248,7 +248,8 @@
                         </span>
                     </a>
                 </li>
-            </ul>                                           
+            </ul>
+                                                       
         </nav>
     </header>
 
