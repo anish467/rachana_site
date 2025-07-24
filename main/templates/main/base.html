@@ -164,7 +164,7 @@
                 <li>
                     <a href="/" class="px-2 py-2 rounded-md text-sm font-medium transition-colors 
                         {% if request.path == '/' %}
-                            text-blue-600 bg-blue-50 hover:text-blue-600 hover:bg-blue-50
+                            text-blue-600 bg-blue-50
                         {% else %}
                             text-gray-700 hover:text-blue-600 hover:bg-blue-50
                         {% endif %}"
@@ -176,7 +176,7 @@
                 <li>
                     <a href="/about/" class="px-2 py-2 rounded-md text-sm font-medium transition-colors 
                         {% if request.path == '/about/' %}
-                            text-blue-600 bg-blue-50 hover:text-blue-600 hover:bg-blue-50
+                            text-blue-600 bg-blue-50
                         {% else %}
                             text-gray-700 hover:text-blue-600 hover:bg-blue-50
                         {% endif %}"
@@ -188,7 +188,7 @@
                 <li class="dropdown relative group">
                     <a href="/products/" class="px-2 py-2 rounded-md text-sm font-medium transition-colors inline-flex items-center 
                         {% if '/products/' in request.path %}
-                            text-blue-600 bg-blue-50 hover:text-blue-600 hover:bg-blue-50
+                            text-blue-600 bg-blue-50
                         {% else %}
                             text-gray-700 hover:text-blue-600 hover:bg-blue-50
                         {% endif %}"
@@ -211,7 +211,7 @@
                 <li>
                     <a href="{% url 'downloads' %}" class="px-2 py-2 rounded-md text-sm font-medium transition-colors 
                         {% if request.path == '/downloads/' %}
-                            text-blue-600 bg-blue-50 hover:text-blue-600 hover:bg-blue-50
+                            text-blue-600 bg-blue-50
                         {% else %}
                             text-gray-700 hover:text-blue-600 hover:bg-blue-50
                         {% endif %}"
@@ -223,7 +223,7 @@
                 <li>
                     <a href="/contact/" class="px-2 py-2 rounded-md text-sm font-medium transition-colors 
                         {% if request.path == '/contact/' %}
-                            text-blue-600 bg-blue-50 hover:text-blue-600 hover:bg-blue-50
+                            text-blue-600 bg-blue-50
                         {% else %}
                             text-gray-700 hover:text-blue-600 hover:bg-blue-50
                         {% endif %}"
@@ -235,7 +235,7 @@
                 <li>
                     <a href="{% url 'view_quote_cart' %}" class="relative px-2 py-2 rounded-md text-sm font-medium transition-colors flex items-center 
                         {% if request.path == '/quote/' %}
-                            text-blue-600 bg-blue-50 hover:text-blue-600 hover:bg-blue-50
+                            text-blue-600 bg-blue-50
                         {% else %}
                             text-gray-700 hover:text-blue-600 hover:bg-blue-50
                         {% endif %}"
@@ -248,7 +248,7 @@
                         </span>
                     </a>
                 </li>
-            </ul>                   
+            </ul>                               
         </nav>
     </header>
 
