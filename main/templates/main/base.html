@@ -37,10 +37,16 @@
         .dropdown-content li a {
             @apply block px-4 py-2 text-base text-gray-700 hover:bg-blue-50 hover:text-blue-700 rounded-lg transition-colors duration-200; /* Larger padding, text, and rounder hover */
         }
-        /* Style for the active nav link (if applicable in your Django views) */
+
+        /* --- NEW/MODIFIED: Styling for the active nav link box --- */
         .nav-links a.active {
-            @apply text-blue-600 font-semibold border-b-2 border-blue-600 pb-1; /* Add an active state visual */
+            @apply bg-blue-50 text-blue-700 px-4 py-2 rounded-lg; /* Light blue background, blue text, rounded corners */
         }
+        /* Ensure hover effect still works nicely on active links */
+        .nav-links a.active:hover {
+            @apply bg-blue-100; /* Slightly darker blue on hover for active link */
+        }
+        /* --- END NEW/MODIFIED --- */
 
         /* Responsive hamburger menu icon */
         .hamburger {
@@ -66,7 +72,12 @@
                 @apply w-full text-center;
             }
             .nav-links a {
-                @apply block py-3 px-4 text-lg;
+                /* Reset active styling for mobile, apply simple block styling */
+                @apply block py-3 px-4 text-lg bg-transparent text-gray-700 rounded-none;
+            }
+            .nav-links a.active {
+                /* Specific active styling for mobile if desired, or let the general .nav-links a apply */
+                @apply text-blue-600 font-semibold bg-blue-50; /* Example: highlight with background for mobile */
             }
             .dropdown-content {
                 position: static; /* Make dropdown static in mobile menu */
@@ -134,40 +145,45 @@
                 <span class="text-xl font-extrabold text-gray-900 hidden sm:block">Rachana <span class="text-blue-600">Corporation</span></span>
             </a>
 
-            <button class="hamburger md:hidden focus:outline-none" id="hamburger-menu" aria-label="Toggle navigation">
-                &#9776; </button>
+            <button class="hamburger md:hidden focus:outline-none" id="hamburger-menu" aria-label="Toggle navigation">&#9776;</button>
 
-                <div class="search-form-wrapper relative">
-                    <form action="{% url 'products' %}" method="get" class="search-form relative w-64 md:w-72">
-                        <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                        </span>
-                        <input type="search" name="q" id="searchInput" placeholder="Search products..."
-                               class="w-full pl-11 pr-4 py-2.5 bg-gray-100 border-2 border-transparent rounded-lg text-gray-800 placeholder-gray-500 focus:outline-none focus:bg-white focus:border-blue-500 transition-colors duration-200"
-                               value="{{ request.GET.q|default:'' }}">
-                    </form>
-                    <ul id="searchResults" class="search-suggestions hidden"></ul>
-                </div>
-
+            <div class="search-form-wrapper relative">
+                <form action="{% url 'products' %}" method="get" class="search-form relative w-64 md:w-72">
+                    <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                    </span>
+                    <input type="search" name="q" id="searchInput" placeholder="Search products..."
+                           class="w-full pl-11 pr-4 py-2.5 bg-gray-100 border-2 border-transparent rounded-lg text-gray-800 placeholder-gray-500 focus:outline-none focus:bg-white focus:border-blue-500 transition-colors duration-200"
+                           value="{{ request.GET.q|default:'' }}">
+                </form>
+                <ul id="searchResults" class="search-suggestions hidden"></ul>
+            </div>
 
             <ul class="nav-links hidden md:flex items-center space-x-6" id="nav-links">
-                <li><a href="/" class="text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200 py-2">Home</a></li>
-                <li><a href="/about/" class="text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200 py-2">About Us</a></li>
+                {# Home Link #}
+                <li><a href="/" class="text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200 py-2 {% if request.path == '/' %}active{% endif %}">Home</a></li>
+                {# About Us Link #}
+                <li><a href="/about/" class="text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200 py-2 {% if request.path == '/about/' %}active{% endif %}">About Us</a></li>
+                {# Products Dropdown #}
                 <li class="dropdown relative group">
-                    <a href="/products/" class="text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200 py-2 inline-flex items-center">
+                    <a href="/products/" class="text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200 py-2 inline-flex items-center {% if '/products/' in request.path %}active{% endif %}">
                         Products
                         <svg class="ml-1 w-4 h-4 transform group-hover:rotate-180 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </a>
                     <ul class="dropdown-content">
+                        {# Loop through categories for product sub-links #}
                         {% for cat in categories %}
-                        <li><a href="/products/{{ cat.id }}/">{{ cat.name }}</a></li>
+                        <li><a href="{% url 'category_products' cat.id %}">{{ cat.name }}</a></li>
                         {% endfor %}
                     </ul>
                 </li>
-                <li><a href="{% url 'downloads' %}" class="text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200 py-2">Downloads</a></li>
-                <li><a href="/contact/" class="text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200 py-2">Contact Us</a></li>
+                {# Downloads Link #}
+                <li><a href="{% url 'downloads' %}" class="text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200 py-2 {% if request.path == '/downloads/' %}active{% endif %}">Downloads</a></li>
+                {# Contact Us Link #}
+                <li><a href="/contact/" class="text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200 py-2 {% if request.path == '/contact/' %}active{% endif %}">Contact Us</a></li>
+                {# Quote Cart Link with Count #}
                 <li>
-                    <a href="{% url 'view_quote_cart' %}" class="relative text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200 py-2 flex items-center">
+                    <a href="{% url 'view_quote_cart' %}" class="relative text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200 py-2 flex items-center {% if request.path == '/quote/' %}active{% endif %}">
                         <svg class="w-6 h-6 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
                         Quote Cart
                         <span id="quoteCartCount" class="absolute -top-1 -right-2 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center
