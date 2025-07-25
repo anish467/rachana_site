@@ -364,6 +364,17 @@
                     }
                 });
             }
+
+            // Debugging for Products Dropdown Hover Issue
+            const productsDropdown = document.querySelector('.dropdown.group');
+            if (productsDropdown) {
+                productsDropdown.addEventListener('mouseenter', () => {
+                    console.log('Mouse ENTER on Products Dropdown');
+                });
+                productsDropdown.addEventListener('mouseleave', () => {
+                    console.log('Mouse LEAVE on Products Dropdown');
+                });
+            }
         });
     </script>
 </body>
