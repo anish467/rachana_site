@@ -29,9 +29,10 @@
             transition: opacity 0.3s ease-out, transform 0.3s ease-out; /* Smooth transition */
             @apply p-2 space-y-1 border border-gray-100; /* MODIFIED: Removed mt-3 */
         }
-        .dropdown:hover .dropdown-content {
-            display: block; /* Show dropdown on hover */
-            opacity: 1;
+        /* MODIFIED: Increased specificity AND added !important for dropdown hover to ensure it overrides conflicting rules */
+        header nav .dropdown:hover .dropdown-content {
+            display: block !important; /* Force display on hover */
+            opacity: 1 !important;     /* Force opacity on hover */
             transform: translateY(0); /* Animate into view */
         }
         .dropdown-content li a {
@@ -84,8 +85,10 @@
                 box-shadow: none; /* Remove shadow */
                 @apply bg-gray-100 mt-2 py-2 rounded-lg; /* Slightly lighter background for nested menu */
             }
-            .dropdown:hover .dropdown-content {
-                display: block;
+            /* MODIFIED: Increased specificity AND added !important for dropdown hover in mobile context too */
+            header nav .dropdown:hover .dropdown-content {
+                display: block !important; /* Force display on hover */
+                opacity: 1 !important;     /* Force opacity on hover */
             }
             /* Adjust layout for search on small screens */
             .header-content {
@@ -365,7 +368,7 @@
                 });
             }
 
-            // Debugging for Products Dropdown Hover Issue
+            // Debugging for Products Dropdown Hover Issue - you can remove this after confirming the fix
             const productsDropdown = document.querySelector('.dropdown.group');
             if (productsDropdown) {
                 productsDropdown.addEventListener('mouseenter', () => {
