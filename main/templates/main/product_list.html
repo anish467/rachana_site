@@ -63,11 +63,11 @@
                 {# Product Image Container - fixed height, centered, and padded #}
                 <div class="w-full aspect-[4/3] bg-gray-50 flex items-center justify-center overflow-hidden">
                     {% if p.main_image %}
-                        <img src="{{ p.main_image.url }}" alt="{{ p.name }}" class="w-full h-full object-contain">
+                        <img src="{{ p.main_image.url }}" alt="{{ p.name }}" class="w-full h-full object-cover">
                     {% else %}
-                        <img src="https://placehold.co/600x400/E0E7FF/3B82F6?text=No+Image" alt="No image available" class="w-full h-full object-contain">
+                        <img src="https://placehold.co/600x400/E0E7FF/3B82F6?text=No+Image" alt="No image available" class="w-full h-full object-cover">
                     {% endif %}
-                </div>                      
+                 </div>                      
 
                 {# Product Information Section - text details of the product #}
                 <div class="p-4 flex-grow text-left">
