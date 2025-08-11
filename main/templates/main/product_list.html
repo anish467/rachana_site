@@ -61,15 +61,13 @@
             {# Individual Product Card structure #}
             <div class="product-card bg-white border border-gray-100 rounded-lg shadow-md overflow-hidden flex flex-col">
                 {# Product Image Container - fixed height, centered, and padded #}
-                <div class="w-full h-48 bg-gray-50 flex items-center justify-center overflow-hidden p-4">
+                <div class="w-full aspect-[4/3] bg-gray-50 flex items-center justify-center overflow-hidden p-4">
                     {% if p.main_image %}
-                        {# Displays the product's main image, ensuring it fits within the container #}
                         <img src="{{ p.main_image.url }}" alt="{{ p.name }}" class="object-contain w-full h-full">
                     {% else %}
-                        {# Placeholder image if no main image is available for the product #}
                         <img src="https://placehold.co/600x400/E0E7FF/3B82F6?text=No+Image" alt="No image available" class="object-contain w-full h-full p-4">
                     {% endif %}
-                </div>
+                </div>                
 
                 {# Product Information Section - text details of the product #}
                 <div class="p-4 flex-grow text-left">
