@@ -3,9 +3,20 @@ from django.urls import path
 from . import views
 from django.conf import settings # new
 from  django.conf.urls.static import static #new
+from django.contrib import admin
+from django.urls import path, include
+from django.contrib.sitemaps.views import sitemap
+from main.sitemaps import ProductSitemap, StaticViewSitemap
+
+sitemaps = {
+    "products": ProductSitemap,
+    "static": StaticViewSitemap,
+}
 
 urlpatterns = [
     path('', views.home, name='home'),
+    path('admin/', admin.site.urls),
+    path('sitemap.xml', sitemap, {"sitemaps": sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
     path('about/', views.about, name='about'),
     path('products/', views.product_list, name='products'),
     path('products/<int:category_id>/', views.product_list, name='category_products'),
