@@ -32,7 +32,7 @@ SECRET_KEY = 'b-5wbbqc7_#2oo4kf=94ri^ev$$wyi8l&+%5a!7cysa@j2xrs4'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['15.207.100.92','*']
+ALLOWED_HOSTS = ['rachanacorporation.com','www.rachanacorporation.com','13.232.36.238']
 
 #postgresql://rachana_site_user:INmPHRygRWXR8GIPWNThdSoHLLRwWTIB@dpg-d1b40qodl3ps73e8q2ug-a.singapore-postgres.render.com/rachana_site
 
@@ -50,7 +50,10 @@ INSTALLED_APPS = [
     'crispy_forms',
     'crispy_bootstrap5',
     'storages',
+    'django.contrib.sites',      # for correct domain in sitemap
+    'django.contrib.sitemaps',
 ]
+SITE_ID = 1
 
 AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY')
