@@ -9,9 +9,6 @@ class ProductSitemap(Sitemap):
     def items(self):
         return Product.objects.all()
 
-    def lastmod(self, obj):
-        return obj.updated_at  # Replace with your actual datetime field
-
     # This is important — sitemap will use this to generate the URL
     def location(self, obj):
         return reverse("product_detail", args=[obj.pk])
