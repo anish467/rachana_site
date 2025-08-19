@@ -30,7 +30,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'b-5wbbqc7_#2oo4kf=94ri^ev$$wyi8l&+%5a!7cysa@j2xrs4'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['rachanacorporation.com','www.rachanacorporation.com','13.232.36.238']
 
