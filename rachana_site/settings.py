@@ -195,3 +195,9 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 # Allow up to 50MB uploads
 DATA_UPLOAD_MAX_MEMORY_SIZE = 50 * 1024 * 1024   # 50 MB
 FILE_UPLOAD_MAX_MEMORY_SIZE = 50 * 1024 * 1024   # 50 MB
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://rachanacorporation.com",
+    "https://www.rachanacorporation.com",  # if you use www also
+]
+
