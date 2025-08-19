@@ -128,7 +128,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'rachana_site',
         'USER': 'rachana',
-        'PASSWORD': 'webtEx-gyjdic-1syggi',
+        'PASSWORD': config('DATABASE_PASS'),
         'HOST': 'rachana-sit.cje2mscoarjj.ap-south-1.rds.amazonaws.com',
         'PORT': '5432',
     }
@@ -185,7 +185,7 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'anishagrawal467@gmail.com'
-EMAIL_HOST_PASSWORD = 'tniy pmzh pmft lxdg'
+EMAIL_HOST_PASSWORD = config('SMTP_PASS')
 
 LOGIN_URL = '/admin/'
 
