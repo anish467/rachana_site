@@ -4,9 +4,9 @@
 {% block content %}
 <section class="intro py-40 px-4 text-center rounded-b-3xl shadow-inner-lg overflow-hidden relative"
         style="background-image: url('{% static "images/factory.jpg" %}'); background-size: cover; background-position: center;">
-<h1 class="text-white text-5xl">Welcome</h1>
     <div class="absolute inset-0 bg-black/50"></div>
     <div class="max-w-5xl mx-auto relative z-10">
+        <!-- Text sizes adjust based on screen size: text-5xl (mobile) -> md:text-6xl (medium screens and up) -->
         <h1 class="text-5xl md:text-6xl font-extrabold text-white mb-6 animate-fade-in-down drop-shadow-lg">
             Welcome to <span class="text-blue-300">Rachana Corporation</span>
         </h1>
@@ -23,15 +23,18 @@
     <div class="category-section mb-16 animate-fade-in-scale">
         <h3 class="text-3xl md:text-4xl font-bold text-gray-800 mb-8 text-center md:text-left">
             {{ cat.name }}
+            <!-- View All link hidden on small screens, appears on sm: (small screens) and up -->
             <a href="{% url 'category_products' cat.id %}" class="ml-4 text-lg text-blue-600 hover:underline transition-colors duration-200 hidden sm:inline-block">
                 View All <span class="sr-only">{{ cat.name }}</span> Products &rarr;
             </a>
         </h3>
 
         <!-- Horizontal Scroll Container for Products -->
+        <!-- flex for horizontal layout, overflow-x-auto for scrolling on small screens -->
         <div class="flex overflow-x-auto pb-4 custom-scrollbar-hide -mx-4 px-4 sm:mx-0 sm:px-0">
             <div class="flex space-x-6 pr-4 sm:pr-0">
                 {% for p in cat.products %}
+                <!-- Product Card: flex-shrink-0 prevents shrinking, w-80 sets a fixed width -->
                 <div class="product-card flex-shrink-0 w-80 bg-white border border-gray-100 rounded-lg shadow-md overflow-hidden transform hover:scale-102 hover:shadow-xl transition-all duration-300 ease-in-out flex flex-col">
                     <div class="w-full h-[288px] bg-gray-50 flex items-center justify-center overflow-hidden">
                         {% if p.main_image %}
@@ -68,7 +71,7 @@
     {% endfor %}
 </section>
 
-<!-- NEW: Our Top Customers Section with Infinite Scroll -->
+<!-- Our Top Customers Section with Infinite Scroll -->
 <section class="our-customers-section py-16 px-4 bg-gray-100 text-center">
     <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-12">Our Top Clients</h2>
     <div class="space-y-8">
@@ -87,7 +90,8 @@
                     <a href="{{ logo.website_url }}" target="_blank" rel="noopener noreferrer" class="block">
                         <img src="{{ logo.logo_image.url }}" alt="{{ logo.name }} Logo" class="max-h-full max-w-full object-contain transition-all duration-300">
                     </a>
-                </div>
+                </a>
+            </div>
                 {% endfor %}
             </div>
         </div>
